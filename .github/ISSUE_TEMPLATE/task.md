@@ -3,13 +3,13 @@ name: Task
 about: Something to build or change
 ---
 
-## What
+## Description (User Story)
 
 One or two sentences.
 
-## Done when
+## Definition of Done
 
-- [ ]
+- [ ] 
 
 ## Notes
 

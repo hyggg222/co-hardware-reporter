@@ -6,9 +6,10 @@ Closes #
 
 Two or three lines. Which file under /proc or /sys does the data come from?
 
+## How to test
+
 ## Checklist
 
 - [ ] Builds and runs on Linux
-- [ ] Does not crash when a file is missing
-- [ ] Unit test for any parsing or calculation
+- [ ] Pass local tests
 - [ ] Reviewer can explain this code
