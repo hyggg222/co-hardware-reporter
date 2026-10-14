@@ -4,6 +4,7 @@ Needs git and Java 11 or newer.
 
 ## Clone, build, run
 
+    cd ~
     git clone git@github.com:hyggg222/co-hardware-reporter.git
     cd co-hardware-reporter
     mkdir -p out
