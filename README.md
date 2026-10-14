@@ -4,6 +4,8 @@ A small Java program that reads hardware information from a Linux machine and pr
 
 ## Build and run
 
+First time on this project? See docs/SETUP.md for installing Java and git, cloning, and what works on WSL, macOS and alderaan.
+
 Needs Java 11 or newer. Run from the repo root so the ids folder is found.
 
     mkdir -p out
