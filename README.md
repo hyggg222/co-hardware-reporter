@@ -4,6 +4,8 @@ A small Java program that reads hardware information from a Linux machine and pr
 
 ## Build and run
 
+First time here? See docs/SETUP.md.
+
 Needs Java 11 or newer. Run from the repo root so the ids folder is found.
 
     mkdir -p out
