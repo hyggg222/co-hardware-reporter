@@ -7,7 +7,7 @@ about: Something to build or change
 
 One or two sentences.
 
-## Definition of Done
+## Acceptance Criteria
 
 - [ ] 
 
