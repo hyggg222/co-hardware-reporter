@@ -9,3 +9,6 @@ target/
 *.iml
 .vscode/
 .DS_Store
+
+# Test dependencies
+lib/
