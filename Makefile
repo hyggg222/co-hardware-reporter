@@ -1,3 +1,4 @@
+MAIN ?= demo
 JUNIT_VERSION = 1.11.4
 JUNIT_JAR = lib/junit-platform-console-standalone-$(JUNIT_VERSION).jar
 JUNIT_SHA256 = b016ef6b1c3454d6d7c2c88ce081dabf289699686af6622d6e4e2e1b54b4a2fc
@@ -20,7 +21,7 @@ test: build $(JUNIT_JAR)
 	java -jar $(JUNIT_JAR) execute --class-path out:out/test --scan-class-path out/test
 
 run: build
-	java -cp out demo
+	java -cp out $(MAIN)
 
 clean:
 	rm -rf out lib
