@@ -17,10 +17,12 @@ public class demo
         System.out.println("memory: total=" + memInfo.getTotal() + " KiB, used=" + memInfo.getUsed() + " KiB");
 
         idLookup pci = idLookup.pci();
-        System.out.println("PCI devices: " + pciInfo.getCount());
-        for (int i = 0; i < pciInfo.getCount(); i++) {
-            int vendor = pciInfo.getVendorId(i);
-            int device = pciInfo.getDeviceId(i);
+        int numPCI = pciInfo.getCount();
+        int[][] pciDevices = pciInfo.getDevices();
+        System.out.println("PCI devices: " + numPCI);
+        for (int i = 0; i < numPCI; i++) {
+            int vendor = pciDevices[i][3];
+            int device = pciDevices[i][4];
             System.out.printf("  %s  %04x:%04x  %s %s%n", pciInfo.getAddress(i), vendor, device,
                               pci.vendorName(vendor), pci.deviceName(vendor, device));
         }

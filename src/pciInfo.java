@@ -23,6 +23,25 @@ public class pciInfo
     private static final Path ROOT = sysFile.path("/sys/bus/pci/devices");
     private static List<Path> devices;
 
+    /*List every PCI device with its bus, device and function numbers, vendor ID, device ID and class. 
+    Store them in an array or list.*/
+    public static int[][] getDevices() {
+        int numDevices = getCount();
+
+        int[][] deviceInfo = new int[numDevices][6];
+
+        for (int i=0; i<numDevices; i++) {
+            deviceInfo[i][0] = getBus(i); //bus num
+            deviceInfo[i][1] = getDevice(i); //device num
+            deviceInfo[i][2] = getFunction(i); //function num
+            deviceInfo[i][3] = getVendorId(i); //vendor ID
+            deviceInfo[i][4] = getDeviceId(i); //device ID
+            deviceInfo[i][5] = getClassCode(i); //class
+        }
+
+        return deviceInfo;
+    }
+
     private static List<Path> list()
     {
         if (devices == null) {
