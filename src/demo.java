@@ -23,6 +23,16 @@ public class demo
             int device = pciInfo.getDeviceId(i);
             System.out.printf("  %s  %04x:%04x  %s %s%n", pciInfo.getAddress(i), vendor, device,
                               pci.vendorName(vendor), pci.deviceName(vendor, device));
+
+        }
+        System.out.println("PCI devices listed alphabetically: ");
+        for (int i = 0; i < pciInfo.getCount(); i++) {
+            pciInfo.alphabet();
+            int vendor = pciInfo.getVendorIda(i);
+            int device = pciInfo.getDeviceIda(i);
+            System.out.printf("  %s  %04x:%04x  %s %s%n", pciInfo.getAddressa(i), vendor, device,
+                    pci.vendorName(vendor), pci.deviceName(vendor, device));
+
         }
 
         idLookup usb = idLookup.usb();
