@@ -1,4 +1,4 @@
-# 0001: Build and test with make, javac and the JUnit console jar
+# 001: Build and test with make, javac and the JUnit console jar
 
 Status: accepted (issue #10)
 
@@ -12,12 +12,6 @@ src folder in the default package, and the starter files must stay as they are.
 A Makefile with build, test, run and clean. It calls javac directly. Tests live in test and use
 JUnit 5. The JUnit console standalone jar (one file) is downloaded into lib on the first
 make test, and lib is not committed.
-
-## Options not chosen
-
-- Maven or Gradle: need a wrapper or an install, and want src/main/java, so the starter files
-  would have to move. Too much for four people and a small program.
-- Committing the JUnit jar: about 2 MB of binary in git, and it is hard to see which version it is.
 
 ## Consequences
 

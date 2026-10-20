@@ -10,7 +10,7 @@ Needs Java 11 or newer and make. Run from the repo root so the ids folder is fou
     make test     # build, then run all unit tests in test
     make run      # build, then run demo
 
-The first make test downloads the JUnit jar into lib (needs internet once). Why make and plain javac: see docs/adr/0001-build-and-test-tool.md.
+The first make test downloads the JUnit jar into lib (needs internet once). Why make and plain javac: see docs/adr/001-build-an-test-tool.md.
 
 ## Where the data comes from
 
