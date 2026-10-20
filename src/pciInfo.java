@@ -105,6 +105,7 @@ public class pciInfo
         //Lambda here basically tells .sort to use this logic
         // instead when deciding the order of two elements
 
+        // Assisted with GENAI Co-pilot
         alphabetlist.sort((a, b) -> {
             int indexA = list().indexOf(a);
             int indexB = list().indexOf(b);
