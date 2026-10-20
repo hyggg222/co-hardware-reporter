@@ -48,37 +48,54 @@ public class cpuInfo
 
     public static double getAvgLoad() throws Exception {
         int cores = getCount();
+        double[] loads = getLoads();
         double sumLoads = 0;
 
         for (int i=0; i<cores; i++) {
-            sumLoads += getLoad(i);
+            sumLoads += loads[i];
         }
 
         double avgLoad = sumLoads / cores;
         return avgLoad;
     }
-    
-    public static double getLoad(int core) throws Exception {
-        System.out.println();
-        long busy0 = getBusy(core);
-        System.out.println("Busy 0: "+busy0);
-        long idle0 = getIdle(core);
-        System.out.println("Idle 0: "+idle0);
 
-        Thread.sleep(1500);
+    public static double[] getLoads() throws Exception { //get all the CPU loads
+        int cores = getCount();
 
-        long busy1 = getBusy(core);
-        long idle1 = getIdle(core);
+        long[] busy0 = new long[cores];
+        long[] idle0 = new long[cores];
 
-        double busyDiff = busy1 - busy0;
-        double idleDiff = idle1 - idle0;
+        long[] busy1 = new long[cores];
+        long[] idle1 = new long[cores];
 
-        double totalJiffies = busyDiff + idleDiff;
         
-        double load = (busyDiff / totalJiffies) * 100;
-        System.out.println(busyDiff/totalJiffies);
+        double[] busyDiff = new double[cores];
+        double[] idleDiff = new double[cores];
 
-        return load;
+        double[] totalJiffies = new double[cores];
+        
+        double[] loads = new double[cores];
+
+        for (int i=0; i<cores; i++) {
+            busy0[i] = getBusy(i);
+            idle0[i] = getIdle(i);
+        }
+        
+        Thread.sleep(1000);
+
+        for (int i=0; i<cores; i++) {
+            busy1[i] = getBusy(i);
+            idle1[i] = getIdle(i);
+
+            busyDiff[i] = busy1[i] - busy0[i];
+            idleDiff[i] = idle1[i] - idle0[i];
+
+            totalJiffies[i] = busyDiff[i] + idleDiff[i];
+
+            loads[i] = (busyDiff[i] / totalJiffies[i]) * 100;
+        }
+
+        return loads;
     }
 
     /** Ticks since boot that core number 'core' (0, 1, 2 ...) has spent doing work. */
