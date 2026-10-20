@@ -34,5 +34,12 @@ public class demo
                               usbInfo.getDeviceNumber(i), vendor, product,
                               usb.vendorName(vendor), usb.deviceName(vendor, product));
         }
+
+    //     int cores = cpuInfo.getCount();
+    //     for (int i=0; i<cores; i++) {
+    //         System.out.printf("Load for core %d: %f\n", i, cpuInfo.getLoad(i));
+    //     }
+    //     System.out.printf("Average load per core: %f\n", cpuInfo.getAvgLoad());
+        System.out.println("Load for core 0: "+cpuInfo.getLoad(0));
     }
 }
