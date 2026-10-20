@@ -17,8 +17,10 @@ $(JUNIT_JAR):
 
 test: build $(JUNIT_JAR)
 	mkdir -p out/test
-	javac -d out/test -cp out:$(JUNIT_JAR) test/*.java
-	java -jar $(JUNIT_JAR) execute --class-path out:out/test --scan-class-path out/test
+	if [ -n "$(wildcard test/*.java)" ]; then \
+		javac -d out/test -cp out:$(JUNIT_JAR) test/*.java && \
+		java -jar $(JUNIT_JAR) execute --class-path out:out/test --scan-class-path out/test; \
+	else echo "No tests in test/ yet"; fi
 
 run: build
 	java -cp out $(MAIN)
