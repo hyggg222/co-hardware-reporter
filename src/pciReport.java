@@ -1,4 +1,16 @@
 public class pciReport {
+    public static void main (String[] args) {
+        int[][] devices = getDevices();
+
+        System.out.printf("%d devices\n", pciInfo.getCount());
+        for (int i=0; i<devices.length; i++) {
+            for (int j=0; j<devices[i].length; j++) {
+                System.out.printf("%d, ", devices[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
     /*List every PCI device with its bus, device and function numbers, vendor ID, device ID and class. 
     Store them in an array or list.*/
     public static int[][] getDevices() {
