@@ -3,6 +3,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class cpuReport {
+    public static void main(String[] args) throws Exception {
+        double[] loads = getLoads();
+        double avgLoad = getAvgLoad();
+
+        for (int i=0; i<loads.length; i++) {
+            System.out.printf("Load for core %d: %.2f%%\n", i, loads[i]);
+        }
+        System.out.printf("Average load per core: %.2f%%\n", avgLoad);
+    }
+
     public static double getAvgLoad() throws Exception {
         int cores = cpuInfo.getCount();
         double[] loads = getLoads();
