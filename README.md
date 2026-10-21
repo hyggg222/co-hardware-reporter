@@ -2,15 +2,16 @@
 
 A small Java program that reads hardware information from a Linux machine and prints it as plain text: processor, memory, PCI devices and USB devices.
 
-## Build and run
+## Build, run and test
 
-First time here? See docs/SETUP.md.
+Needs Java 11 or newer and make. Run from the repo root so the ids folder is found.
 
-Needs Java 11 or newer. Run from the repo root so the ids folder is found.
+    make build    # compile src into out
+    make test     # build, then run all unit tests in test
+    make run      # build, then run demo
+    make run MAIN=report   # build, then run any class that has a main method
 
-    mkdir -p out
-    javac -d out src/*.java
-    java -cp out demo
+The first make test downloads the JUnit jar into lib (needs internet once). Why make and plain javac: see docs/adr/001-build-an-test-tool.md.
 
 ## Where the data comes from
 
