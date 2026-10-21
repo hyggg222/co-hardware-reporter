@@ -18,7 +18,6 @@ public class demo
 
         idLookup pci = idLookup.pci();
         int numPCI = pciInfo.getCount();
-        int[][] pciDevices = pciInfo.getDevices();
         System.out.println("PCI devices: " + numPCI);
         for (int i = 0; i < numPCI; i++) {
             int vendor = pciInfo.getVendorId(i);
