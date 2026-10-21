@@ -21,8 +21,8 @@ public class demo
         int[][] pciDevices = pciInfo.getDevices();
         System.out.println("PCI devices: " + numPCI);
         for (int i = 0; i < numPCI; i++) {
-            int vendor = pciDevices[i][3];
-            int device = pciDevices[i][4];
+            int vendor = pciInfo.getVendorId(i);
+            int device = pciInfo.getDeviceId(i);
             System.out.printf("  %s  %04x:%04x  %s %s%n", pciInfo.getAddress(i), vendor, device,
                               pci.vendorName(vendor), pci.deviceName(vendor, device));
         }
