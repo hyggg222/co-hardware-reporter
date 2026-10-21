@@ -34,12 +34,5 @@ public class demo
                               usbInfo.getDeviceNumber(i), vendor, product,
                               usb.vendorName(vendor), usb.deviceName(vendor, product));
         }
-
-        System.out.printf("Average load per core: %.2f%%\n", cpuInfo.getAvgLoad());
-
-        double[] loads = cpuInfo.getLoads();
-        for (int i=0; i<cpuInfo.getCount(); i++) {
-            System.out.printf("Load for core %d: %.2f%%\n", i, loads[i]);
-        }
     }
 }
