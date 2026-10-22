@@ -16,6 +16,7 @@ class memStatsTest
     void percent()
     {
         assertEquals(25.0, memStats.percentUsed(8000000, 2000000), 0.0001);
+        assertEquals(100.0, memStats.percentUsed(0, 0), 0.0001);
     }
 
     // bad input gives -1   
@@ -24,6 +25,5 @@ class memStatsTest
     {
         assertEquals(-1, memStats.toGiB(-1), 0.0001);
         assertEquals(-1, memStats.percentUsed(-1, -1), 0.0001);
-        assertEquals(-1, memStats.percentUsed(0, 0), 0.0001);
     }
 }

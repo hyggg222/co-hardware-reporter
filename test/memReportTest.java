@@ -9,6 +9,8 @@ class memReportTest
     {
         assertEquals("Memory: total 8.00 GiB, used 2.00 GiB (25.0%)",
                      memReport.summary(8 * 1048576L, 6 * 1048576L));
+        assertEquals("Memory: total 0.00 GiB, used 0.00 GiB (100.0%)",
+                     memReport.summary(0, 0));
     }
 
     // a value of -1 prints the message instead of numbers
@@ -17,5 +19,6 @@ class memReportTest
     {
         assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(-1, -1));
         assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(8388608, -1));
+        assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(-1, 8388608));
     }
 }

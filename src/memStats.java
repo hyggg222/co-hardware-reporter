@@ -7,9 +7,10 @@ public class memStats
         return kib < 0 ? -1 : kib / (1024.0 * 1024.0);
     }
 
-    // Used memory as a percentage of total. Returns -1 if total is 0 or less, or used is negative.
+    // Used memory as a percentage of total. Returns -1 if total or used is negative and if total is smaller than used.
     public static double percentUsed(long total, long used)
     {
-        return (total <= 0 || used < 0) ? -1 : used * 100.0 / total;
+        if (total == 0 && used == 0) return 100.0;
+        return (total <= 0 || used < 0 || total < used) ? -1 : used * 100.0 / total;
     }
 }
