@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 // Class to fill a sample pci list to fulfill tests.
-// To have a constant test for every device as every device
-// expects different pci devices.
+// Using sample pci values for the test, as every machine has different PCIs.
 class PciMethodsTest {
 
     private static final Path path = Paths.get("samplepcidevices");
@@ -51,13 +50,14 @@ class PciMethodsTest {
             int indexA = listtest().indexOf(a);
             int indexB = listtest().indexOf(b);
 
-            String vendorA = null;
+            String vendorA;
+            String vendorB;
+
             try {
                 vendorA = pci.vendorName(getVendorIda(indexA));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            String vendorB = null;
             try {
                 vendorB = pci.vendorName(getVendorIda(indexB));
             } catch (IOException e) {
@@ -83,6 +83,9 @@ class PciMethodsTest {
         return alphabettest().size();
     }
 
+    //Reads file - samplepcidevices
+    //This file is formatted for windows.
+    //Different method to main method, but does the same thing.
     /** The address as text, for example "0000:00:02.0". */
     public static String getAddressa(int index) throws IOException {
         return Files.readString(

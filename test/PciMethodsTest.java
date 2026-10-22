@@ -49,8 +49,11 @@ class PciMethodsTestTest {
     @Test
     void testAlphabeticalSort() throws IOException {
 
+        //Creates sorted list in sorted.
         List<Path> sorted = PciMethodsTest.alphabettest();
 
+
+        //Resolves vendor names of sorted list.
         String vendor1 = idLookup.pci().vendorName(
                 (int) sysFile.number(sorted.get(0).resolve("vendor")));
 
@@ -63,6 +66,8 @@ class PciMethodsTestTest {
         String vendor4 = idLookup.pci().vendorName(
                 (int) sysFile.number(sorted.get(3).resolve("vendor")));
 
+        //In sample data, vendor4 is intentionally null.
+        //Since we're resolving vendorname again here it needs to be reassigned.
         if (vendor4 == null) {
             vendor4 = "Unknown Origin";
         }
