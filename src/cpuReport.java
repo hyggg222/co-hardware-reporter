@@ -3,65 +3,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class cpuReport {
-    public static void main(String[] args) throws Exception {
-        double[] loads = getLoads();
-        double avgLoad = getAvgLoad();
+    public static String[] summary(long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
+        String[] summary = new String[cpuInfo.getCount()+1];
 
+        double[] loads = cpuStats.getLoads(busy0, idle0, busy1, idle1);
+        double avgLoad = cpuStats.getAvgLoad(busy0, idle0, busy1, idle1);
+
+        if (avgLoad < 0) {
+            String[] error = {"CPU: cannot read /proc/stat"};
+            return error;
+        }
+        
         for (int i=0; i<loads.length; i++) {
-            System.out.printf("Load for core %d: %.2f%%\n", i, loads[i]);
+            summary[i] = String.format("Load for core %d: %.2f%%\n", i, loads[i]);
         }
-        System.out.printf("Average load per core: %.2f%%\n", avgLoad);
+        summary[summary.length-1] = String.format("Average load per core: %.2f%%\n", avgLoad);
+
+        return summary;
     }
 
-    public static double getAvgLoad() throws Exception {
-        int cores = cpuInfo.getCount();
-        double[] loads = getLoads();
-        double sumLoads = 0;
-
-        for (int i=0; i<cores; i++) {
-            sumLoads += loads[i];
-        }
-
-        double avgLoad = sumLoads / cores;
-        return avgLoad;
-    }
-
-    public static double[] getLoads() throws Exception { //get all the CPU loads
+    public static void main(String[] args) throws Exception {
         int cores = cpuInfo.getCount();
 
+        long[][] baseLoads = cpuStats.getBaseLoads();
         long[] busy0 = new long[cores];
         long[] idle0 = new long[cores];
-
         long[] busy1 = new long[cores];
         long[] idle1 = new long[cores];
 
-        
-        double[] busyDiff = new double[cores];
-        double[] idleDiff = new double[cores];
-
-        double[] totalJiffies = new double[cores];
-        
-        double[] loads = new double[cores];
-
         for (int i=0; i<cores; i++) {
-            busy0[i] = cpuInfo.getBusy(i);
-            idle0[i] = cpuInfo.getIdle(i);
-        }
-        
-        Thread.sleep(1000);
-
-        for (int i=0; i<cores; i++) {
-            busy1[i] = cpuInfo.getBusy(i);
-            idle1[i] = cpuInfo.getIdle(i);
-
-            busyDiff[i] = busy1[i] - busy0[i];
-            idleDiff[i] = idle1[i] - idle0[i];
-
-            totalJiffies[i] = busyDiff[i] + idleDiff[i];
-
-            loads[i] = (busyDiff[i] / totalJiffies[i]) * 100;
+            busy0[i] = baseLoads[i][0];
+            idle0[i] = baseLoads[i][1];
+            busy1[i] = baseLoads[i][2];
+            idle1[i] = baseLoads[i][3];
         }
 
-        return loads;
+        String[] summary = summary(busy0, idle0, busy1, idle1);
+        for (int i=0; i<summary.length; i++) {
+            System.out.print(summary[i]);
+        }
     }
 }
