@@ -20,5 +20,6 @@ class memReportTest
         assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(-1, -1));
         assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(8388608, -1));
         assertEquals("Memory: cannot read /proc/meminfo", memReport.summary(-1, 8388608));
+        assertEquals("Memory: invalid values (total < used)", memReport.summary(100, 200));
     }
 }

@@ -8,6 +8,8 @@ public class memReport
         if (total < 0 || available < 0)
             return "Memory: cannot read /proc/meminfo";
         long used = total - available;
+        if (used < 0) 
+            return "Memory: invalid values (total < used)";
         return String.format("Memory: total %.2f GiB, used %.2f GiB (%.1f%%)",
                              memStats.toGiB(total), memStats.toGiB(used),
                              memStats.percentUsed(total, used));
