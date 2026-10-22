@@ -142,6 +142,33 @@ import java.util.List;
             return (int) sysFile.number(pcibussort().get(index).resolve("class"));
         }
 
+
+
+        public static void vendorcountprintmethod()throws IOException {
+
+            List<Path> devices = alphabet();
+            idLookup pci = idLookup.pci();
+            int count = 1;
+
+            if(devices.size() == 0){
+                return;
+            }
+
+            String currentVendor = pci.vendorName(getVendorIda(0));
+
+            for (int i = 1; i < devices.size(); i++) {
+                String vendor = pci.vendorName(getVendorIda(i));
+
+                if (vendor.equals(currentVendor)) {
+                    count++;
+                } else {
+                    System.out.println(currentVendor + " - " + count);
+                    currentVendor = vendor;
+                    count = 1;
+                }
+            }
+            System.out.println(currentVendor + " - " + count);
+        }
     }
 
 
