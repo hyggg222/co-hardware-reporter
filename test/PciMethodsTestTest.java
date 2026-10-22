@@ -8,6 +8,7 @@ class PciMethodsTestTest {
 
     @Test
     void testGetCounta() throws IOException {
+
         assertEquals(4, PciMethods.getCounta());
     }
 

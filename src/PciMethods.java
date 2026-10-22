@@ -82,6 +82,66 @@ import java.util.List;
         public static int getClassCodea(int index) throws IOException {
             return (int) sysFile.number(alphabet().get(index).resolve("class"));
         }
+
+        public static List<Path> pcibussort() throws IOException {
+
+            List<Path> pcibussortlist = new ArrayList<>(pciInfo.getlist());
+            idLookup pci = idLookup.pci();
+
+            pcibussortlist.sort((a, b) -> {
+                int indexA = pciInfo.getlist().indexOf(a);
+                int indexB = pciInfo.getlist().indexOf(b);
+
+                return Integer.compare(
+                        pciInfo.getBus(indexA),
+                        pciInfo.getBus(indexB)
+                );
+            });
+
+            return pcibussortlist;
+        }
+
+        //Methods but for busnumber sorted list
+        /** How many PCI devices there are. */
+        public static int getCountb() throws IOException {
+            return pcibussort().size();
+        }
+
+        /** The address as text, for example "0000:00:02.0". */
+        public static String getAddressb(int index) throws IOException {
+            return pcibussort().get(index).getFileName().toString();
+        }
+
+        /** The bus number, taken from the address. */
+        public static int getBusb(int index) throws IOException {
+            return Integer.parseInt(getAddressb((index)).substring(5, 7), 16);
+        }
+
+        /** The device number on the bus, taken from the address. */
+        public static int getDeviceb(int index) throws IOException {
+            return Integer.parseInt(getAddressb((index)).substring(8, 10), 16);
+        }
+
+        /** The function number of the device, taken from the address. */
+        public static int getFunctionb(int index) throws IOException {
+            return Integer.parseInt(getAddressb((index)).substring(11, 12), 16);
+        }
+
+        /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
+        public static int getVendorIdb(int index) throws IOException {
+            return (int) sysFile.number(pcibussort().get(index).resolve("vendor"));
+        }
+
+        /** The device ID, or -1 if it cannot be read. */
+        public static int getDeviceIdb(int index) throws IOException {
+            return (int) sysFile.number(pcibussort().get(index).resolve("device"));
+        }
+
+        /** The 24-bit class code, for example 0x060000 for a host bridge, or -1. */
+        public static int getClassCodeb(int index) throws IOException {
+            return (int) sysFile.number(pcibussort().get(index).resolve("class"));
+        }
+
     }
 
 
