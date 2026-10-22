@@ -155,9 +155,16 @@ import java.util.List;
             }
 
             String currentVendor = pci.vendorName(getVendorIda(0));
+            if (currentVendor == null) {
+                currentVendor = "Unknown Origin";
+            }
 
             for (int i = 1; i < devices.size(); i++) {
                 String vendor = pci.vendorName(getVendorIda(i));
+                if (vendor == null) {
+                    vendor = "Unknown Origin";
+                }
+
 
                 if (vendor.equals(currentVendor)) {
                     count++;
