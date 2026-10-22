@@ -40,6 +40,11 @@ public class pciInfo
         return devices;
     }
 
+    public static List<Path> getlist(){
+        list();
+        return devices;
+    }
+
     /** Read the list of devices again (useful if hardware may have changed). */
     public static void rescan()
     {
