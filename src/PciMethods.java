@@ -69,7 +69,7 @@ import java.util.List;
         }
 
         /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
-        public static int getVendorIda(int index) throws IOException {
+        public static int getVendorIdA(int index) throws IOException {
             return (int) sysFile.number(alphabet().get(index).resolve("vendor"));
         }
 
@@ -144,37 +144,45 @@ import java.util.List;
 
 
 
-        public static void vendorcountprintmethod()throws IOException {
+        public static String[] vendorCount() throws IOException {
 
             List<Path> devices = alphabet();
             idLookup pci = idLookup.pci();
-            int count = 1;
 
-            if(devices.size() == 0){
-                return;
+            List<String> results = new ArrayList<>();
+
+            if (devices.isEmpty()) {
+                return new String[0];
             }
 
-            String currentVendor = pci.vendorName(getVendorIda(0));
+            int count = 1;
+
+            String currentVendor = pci.vendorName(getVendorIdA(0));
             if (currentVendor == null) {
                 currentVendor = "Unknown Origin";
             }
 
             for (int i = 1; i < devices.size(); i++) {
-                String vendor = pci.vendorName(getVendorIda(i));
+
+                String vendor = pci.vendorName(getVendorIdA(i));
+
                 if (vendor == null) {
                     vendor = "Unknown Origin";
                 }
 
-
                 if (vendor.equals(currentVendor)) {
                     count++;
                 } else {
-                    System.out.println(currentVendor + " - " + count);
+                    results.add(currentVendor + " - " + count);
+
                     currentVendor = vendor;
                     count = 1;
                 }
             }
-            System.out.println(currentVendor + " - " + count);
+
+            results.add(currentVendor + " - " + count);
+
+            return results.toArray(new String[0]);
         }
     }
 
