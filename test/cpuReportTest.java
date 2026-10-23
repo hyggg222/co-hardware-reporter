@@ -6,7 +6,7 @@ class cpuReportTest
 {
     // readable values
     @Test
-    void line() throws Exception
+    void readable() throws Exception
     {
         //Load for core 0: 68.25%, Average load per core: 68.25%
         assertArrayEquals(new String[]{"Load for core 0: 68.25%", "Average load per core: 68.25%"},
@@ -21,6 +21,14 @@ class cpuReportTest
     @Test
     void unreadable() throws Exception
     {
+        //-1
         assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(new long[]{-1}, new long[]{-1}, new long[]{-1}, new long[]{-1}));
+
+        //different lengths
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(new long[]{1, 2, 3}, new long[]{1, 2}, new long[]{1, 2, 3}, new long[]{1, 2, 3, 4}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(new long[]{1, 2, 3, 4}, new long[]{1, 2, 3}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
+
+        //empty input
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
     }
 }
