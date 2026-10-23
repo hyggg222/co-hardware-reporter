@@ -44,28 +44,28 @@ import java.util.List;
         }
         //Methods but for alphabetically sorted list
         /** How many PCI devices there are. */
-        public static int getCounta() throws IOException {
+        public static int getCountA() throws IOException {
             return alphabet().size();
         }
 
         /** The address as text, for example "0000:00:02.0". */
-        public static String getAddressa(int index) throws IOException {
+        public static String getAddressA(int index) throws IOException {
             return alphabet().get(index).getFileName().toString();
         }
 
         /** The bus number, taken from the address. */
-        public static int getBusa(int index) throws IOException {
-            return Integer.parseInt(getAddressa((index)).substring(5, 7), 16);
+        public static int getBusA(int index) throws IOException {
+            return Integer.parseInt(getAddressA((index)).substring(5, 7), 16);
         }
 
         /** The device number on the bus, taken from the address. */
-        public static int getDevicea(int index) throws IOException {
-            return Integer.parseInt(getAddressa((index)).substring(8, 10), 16);
+        public static int getDeviceA(int index) throws IOException {
+            return Integer.parseInt(getAddressA((index)).substring(8, 10), 16);
         }
 
         /** The function number of the device, taken from the address. */
-        public static int getFunctiona(int index) throws IOException {
-            return Integer.parseInt(getAddressa((index)).substring(11, 12), 16);
+        public static int getFunctionA(int index) throws IOException {
+            return Integer.parseInt(getAddressA((index)).substring(11, 12), 16);
         }
 
         /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
@@ -74,12 +74,12 @@ import java.util.List;
         }
 
         /** The device ID, or -1 if it cannot be read. */
-        public static int getDeviceIda(int index) throws IOException {
+        public static int getDeviceIdA(int index) throws IOException {
             return (int) sysFile.number(alphabet().get(index).resolve("device"));
         }
 
         /** The 24-bit class code, for example 0x060000 for a host bridge, or -1. */
-        public static int getClassCodea(int index) throws IOException {
+        public static int getClassCodeA(int index) throws IOException {
             return (int) sysFile.number(alphabet().get(index).resolve("class"));
         }
 
@@ -103,42 +103,42 @@ import java.util.List;
 
         //Methods but for busnumber sorted list
         /** How many PCI devices there are. */
-        public static int getCountb() throws IOException {
+        public static int getCountB() throws IOException {
             return pcibussort().size();
         }
 
         /** The address as text, for example "0000:00:02.0". */
-        public static String getAddressb(int index) throws IOException {
+        public static String getAddressB(int index) throws IOException {
             return pcibussort().get(index).getFileName().toString();
         }
 
         /** The bus number, taken from the address. */
-        public static int getBusb(int index) throws IOException {
-            return Integer.parseInt(getAddressb((index)).substring(5, 7), 16);
+        public static int getBusB(int index) throws IOException {
+            return Integer.parseInt(getAddressB((index)).substring(5, 7), 16);
         }
 
         /** The device number on the bus, taken from the address. */
-        public static int getDeviceb(int index) throws IOException {
-            return Integer.parseInt(getAddressb((index)).substring(8, 10), 16);
+        public static int getDeviceB(int index) throws IOException {
+            return Integer.parseInt(getAddressB((index)).substring(8, 10), 16);
         }
 
         /** The function number of the device, taken from the address. */
-        public static int getFunctionb(int index) throws IOException {
-            return Integer.parseInt(getAddressb((index)).substring(11, 12), 16);
+        public static int getFunctionB(int index) throws IOException {
+            return Integer.parseInt(getAddressB((index)).substring(11, 12), 16);
         }
 
         /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
-        public static int getVendorIdb(int index) throws IOException {
+        public static int getVendorIdB(int index) throws IOException {
             return (int) sysFile.number(pcibussort().get(index).resolve("vendor"));
         }
 
         /** The device ID, or -1 if it cannot be read. */
-        public static int getDeviceIdb(int index) throws IOException {
+        public static int getDeviceIdB(int index) throws IOException {
             return (int) sysFile.number(pcibussort().get(index).resolve("device"));
         }
 
         /** The 24-bit class code, for example 0x060000 for a host bridge, or -1. */
-        public static int getClassCodeb(int index) throws IOException {
+        public static int getClassCodeB(int index) throws IOException {
             return (int) sysFile.number(pcibussort().get(index).resolve("class"));
         }
 
