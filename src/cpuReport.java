@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class cpuReport {
+    public static void main(String[] args) throws Exception {        
+            printReport();
+    }
+
     public static String[] summary(long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
         String[] error = {"CPU: cannot read /proc/stat"};
 
@@ -29,7 +33,7 @@ public class cpuReport {
         }
     }
 
-    public static void main(String[] args) throws Exception {        
+    public static void printReport() throws Exception {
         long[][] baseLoads = cpuStats.getBaseLoads();
         int cores = baseLoads.length;
 
@@ -48,6 +52,6 @@ public class cpuReport {
         String[] summary = summary(busy0, idle0, busy1, idle1);
         for (int i=0; i<summary.length; i++) {
             System.out.println(summary[i]);
-        }    
+        }
     }
 }
