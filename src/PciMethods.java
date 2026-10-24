@@ -37,10 +37,9 @@ import java.util.List;
             return devices;
         }
 
-        public static int[][] pcibussort() throws IOException {
+        public static int[][] pcibussort() {
 
             int[][] pcibussortlist = pciStats.getDevices();
-            idLookup pci = idLookup.pci();
 
             Arrays.sort(pcibussortlist, (a, b) ->
                     Integer.compare(a[0], b[0])
