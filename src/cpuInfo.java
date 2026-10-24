@@ -46,6 +46,7 @@ public class cpuInfo
         return "";
     }
 
+
     /** Ticks since boot that core number 'core' (0, 1, 2 ...) has spent doing work. */
     public static long getBusy(int core)
     {
