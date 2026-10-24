@@ -5,166 +5,71 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
     //Main method used that uses real PCI devices of machine.
     public class PciMethods {
 
-        public static List<Path> alphabet() throws IOException {
-            //fill new arraylist with same values of devices,
-            //so that we don't override or add new values to devices.
 
-            List<Path> alphabetlist = new ArrayList<>(pciInfo.getlist());
+        // Assisted with gen-AI Copilot
+        public static int[][] alphabeticallist() throws IOException {
 
+            int[][] devices = pciStats.getDevices();
             idLookup pci = idLookup.pci();
 
-            //Lambda here basically tells .sort to use this logic
-            // instead when deciding the order of two elements
+            Arrays.sort(devices, (a, b) -> {
 
-            // Assisted with GENAI Co-pilot
-            alphabetlist.sort((a, b) -> {
-                int indexA = pciInfo.getlist().indexOf(a);
-                int indexB = pciInfo.getlist().indexOf(b);
+                String vendorA = pci.vendorName(a[3]);
+                String vendorB = pci.vendorName(b[3]);
 
-                String vendorA = pci.vendorName(pciInfo.getVendorId(indexA));
-                String vendorB = pci.vendorName(pciInfo.getVendorId(indexB));
-
-                if ((vendorA) == null){
+                if (vendorA == null) {
                     vendorA = "Unknown Origin";
                 }
-                if ((vendorB) == null){
+
+                if (vendorB == null) {
                     vendorB = "Unknown Origin";
                 }
 
                 return vendorA.compareTo(vendorB);
             });
 
-            return alphabetlist;
-
-        }
-        //Methods but for alphabetically sorted list
-        /** How many PCI devices there are. */
-        public static int getCountA() throws IOException {
-            return alphabet().size();
+            return devices;
         }
 
-        /** The address as text, for example "0000:00:02.0". */
-        public static String getAddressA(int index) throws IOException {
-            return alphabet().get(index).getFileName().toString();
-        }
+        public static int[][] pcibussort() throws IOException {
 
-        /** The bus number, taken from the address. */
-        public static int getBusA(int index) throws IOException {
-            return Integer.parseInt(getAddressA((index)).substring(5, 7), 16);
-        }
-
-        /** The device number on the bus, taken from the address. */
-        public static int getDeviceA(int index) throws IOException {
-            return Integer.parseInt(getAddressA((index)).substring(8, 10), 16);
-        }
-
-        /** The function number of the device, taken from the address. */
-        public static int getFunctionA(int index) throws IOException {
-            return Integer.parseInt(getAddressA((index)).substring(11, 12), 16);
-        }
-
-        /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
-        public static int getVendorIdA(int index) throws IOException {
-            return (int) sysFile.number(alphabet().get(index).resolve("vendor"));
-        }
-
-        /** The device ID, or -1 if it cannot be read. */
-        public static int getDeviceIdA(int index) throws IOException {
-            return (int) sysFile.number(alphabet().get(index).resolve("device"));
-        }
-
-        /** The 24-bit class code, for example 0x060000 for a host bridge, or -1. */
-        public static int getClassCodeA(int index) throws IOException {
-            return (int) sysFile.number(alphabet().get(index).resolve("class"));
-        }
-
-        public static List<Path> pcibussort() throws IOException {
-
-            List<Path> pcibussortlist = new ArrayList<>(pciInfo.getlist());
+            int[][] pcibussortlist = pciStats.getDevices();
             idLookup pci = idLookup.pci();
 
-            pcibussortlist.sort((a, b) -> {
-                int indexA = pciInfo.getlist().indexOf(a);
-                int indexB = pciInfo.getlist().indexOf(b);
-
-                return Integer.compare(
-                        pciInfo.getBus(indexA),
-                        pciInfo.getBus(indexB)
-                );
-            });
+            Arrays.sort(pcibussortlist, (a, b) ->
+                    Integer.compare(a[0], b[0])
+            );
 
             return pcibussortlist;
         }
 
-        //Methods but for busnumber sorted list
-        /** How many PCI devices there are. */
-        public static int getCountB() throws IOException {
-            return pcibussort().size();
-        }
-
-        /** The address as text, for example "0000:00:02.0". */
-        public static String getAddressB(int index) throws IOException {
-            return pcibussort().get(index).getFileName().toString();
-        }
-
-        /** The bus number, taken from the address. */
-        public static int getBusB(int index) throws IOException {
-            return Integer.parseInt(getAddressB((index)).substring(5, 7), 16);
-        }
-
-        /** The device number on the bus, taken from the address. */
-        public static int getDeviceB(int index) throws IOException {
-            return Integer.parseInt(getAddressB((index)).substring(8, 10), 16);
-        }
-
-        /** The function number of the device, taken from the address. */
-        public static int getFunctionB(int index) throws IOException {
-            return Integer.parseInt(getAddressB((index)).substring(11, 12), 16);
-        }
-
-        /** The vendor ID, for example 0x8086, or -1 if it cannot be read. */
-        public static int getVendorIdB(int index) throws IOException {
-            return (int) sysFile.number(pcibussort().get(index).resolve("vendor"));
-        }
-
-        /** The device ID, or -1 if it cannot be read. */
-        public static int getDeviceIdB(int index) throws IOException {
-            return (int) sysFile.number(pcibussort().get(index).resolve("device"));
-        }
-
-        /** The 24-bit class code, for example 0x060000 for a host bridge, or -1. */
-        public static int getClassCodeB(int index) throws IOException {
-            return (int) sysFile.number(pcibussort().get(index).resolve("class"));
-        }
-
-
-
         public static String[] vendorCount() throws IOException {
 
-            List<Path> devices = alphabet();
+            int[][] devices = alphabeticallist();
             idLookup pci = idLookup.pci();
 
             List<String> results = new ArrayList<>();
 
-            if (devices.isEmpty()) {
+            if (devices.length == 0) {
                 return new String[0];
             }
 
-            int count = 1;
+            String currentVendor = pci.vendorName(devices[0][3]);
 
-            String currentVendor = pci.vendorName(getVendorIdA(0));
             if (currentVendor == null) {
                 currentVendor = "Unknown Origin";
             }
 
-            for (int i = 1; i < devices.size(); i++) {
+            int count = 1;
 
-                String vendor = pci.vendorName(getVendorIdA(i));
+            for (int i = 1; i < devices.length; i++) {
+                String vendor = pci.vendorName(devices[i][3]);
 
                 if (vendor == null) {
                     vendor = "Unknown Origin";
@@ -174,7 +79,6 @@ import java.util.List;
                     count++;
                 } else {
                     results.add(currentVendor + " - " + count);
-
                     currentVendor = vendor;
                     count = 1;
                 }
