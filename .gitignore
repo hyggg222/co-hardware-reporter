@@ -1,4 +1,5 @@
 # Build output
+report.txt
 out/
 *.class
 build/
