@@ -7,11 +7,19 @@ public class cpuReport {
             printReport();
     }
 
-    public static String[] summary(long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
+    public static String[] summary(int cores, String model, long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
         String[] error = {"CPU: cannot read /proc/stat"};
 
-        if ((busy0 != null && idle0 != null && busy1 != null && idle1 != null) && (busy0.length == idle0.length && busy0.length == busy1.length && busy0.length == idle1.length)) {
-           String[] summary = new String[busy0.length+1];
+        if ((cores > 0) && (busy0 != null && idle0 != null && busy1 != null && idle1 != null) && (cores == busy0.length && cores == idle0.length && cores == busy1.length && cores == idle1.length)) {
+           String[] summary = new String[cores+3]; //a line for each core + num cores + model + avg load
+
+           //base info
+            if (cores > 1) {
+                summary[0] = String.format("There are %d cores", cores);
+            } else {
+                summary[0] = "There is 1 core";
+            }
+            summary[1] = String.format("The processor model is %s", model);
 
             double[] loads = cpuStats.getLoads(busy0, idle0, busy1, idle1);
 
@@ -23,7 +31,7 @@ public class cpuReport {
             double avgLoad = loads[loads.length-1];
             
             for (int i=0; i<loads.length; i++) {
-                summary[i] = String.format("Load for core %d: %.2f%%", i, loads[i]);
+                summary[i+2] = String.format("Load for core %d: %.2f%%", i, loads[i]);
             }
             summary[summary.length-1] = String.format("Average load per core: %.2f%%", avgLoad);
 
@@ -34,13 +42,9 @@ public class cpuReport {
     }
 
     public static void printReport() throws Exception {
-        //base info
-        int cores;
-        String model = cpuInfo.getModel();
-
         //loads
         long[][] baseLoads = cpuStats.getBaseLoads();
-        cores = baseLoads.length;
+        int cores = baseLoads.length;
 
         long[] busy0 = new long[cores];
         long[] idle0 = new long[cores];
@@ -54,11 +58,13 @@ public class cpuReport {
             idle1[i] = baseLoads[i][3];
         }
         
-        String[] summary = summary(busy0, idle0, busy1, idle1);
+        //baseinfo
+        cores = cpuInfo.getCount(); //will be error checked in summary
+        String model = cpuInfo.getModel();
+        
+        String[] summary = summary(cores, model, busy0, idle0, busy1, idle1);
 
         //actual printing
-        System.out.printf("There are %d cores.\n", cores);
-        System.out.printf("The processor model is %s.\n", model);
         for (int i=0; i<summary.length; i++) {
             System.out.println(summary[i]);
         }
