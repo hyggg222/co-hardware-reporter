@@ -34,8 +34,13 @@ public class cpuReport {
     }
 
     public static void printReport() throws Exception {
+        //base info
+        int cores;
+        String model = cpuInfo.getModel();
+
+        //loads
         long[][] baseLoads = cpuStats.getBaseLoads();
-        int cores = baseLoads.length;
+        cores = baseLoads.length;
 
         long[] busy0 = new long[cores];
         long[] idle0 = new long[cores];
@@ -50,6 +55,10 @@ public class cpuReport {
         }
         
         String[] summary = summary(busy0, idle0, busy1, idle1);
+
+        //actual printing
+        System.out.printf("There are %d cores.\n", cores);
+        System.out.printf("The processor model is %s.\n", model);
         for (int i=0; i<summary.length; i++) {
             System.out.println(summary[i]);
         }
