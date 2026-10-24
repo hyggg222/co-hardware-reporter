@@ -12,6 +12,12 @@ public class sysReport {
 
         //2. Memory Section
         System.out.println("---------- Memory ----------");
+        try {
+            System.out.println(memReport.summary(memInfo.getTotal(), memInfo.getAvailable()));
+        } catch (Exception e) {
+            System.out.println("Memory: Unable to read memory information");
+        }
+        System.out.println();
 
         //3. PCI devices Section
         System.out.println("---------- PCI Devices ----------");
