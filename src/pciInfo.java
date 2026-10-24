@@ -2,9 +2,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * The PCI devices that Linux has found, read from /sys/bus/pci/devices.
@@ -37,7 +35,13 @@ public class pciInfo
             }
             Collections.sort(found);
             devices = found;
+
         }
+        return devices;
+    }
+
+    public static List<Path> getlist(){
+        list();
         return devices;
     }
 
@@ -95,3 +99,7 @@ public class pciInfo
         return (int) sysFile.number(list().get(index).resolve("class"));
     }
 }
+
+
+
+
