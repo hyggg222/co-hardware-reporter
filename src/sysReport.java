@@ -1,5 +1,6 @@
 public class sysReport {
-    public static void main(String[] args) {
+    // Method to print combined hardware report.
+    public static void printSystemReport() {
 
         //Heading of the report to report the system information
         System.out.println("==================== SYSTEM HARDWARE REPORT ====================");
@@ -46,4 +47,8 @@ public class sysReport {
         System.out.println("===============================================================");
 
     }
+    // Main method to execute the system report.
+     public static void main(String[] args) {
+        printSystemReport();
+     }
 }
