@@ -7,6 +7,13 @@ public class sysReport {
 
         //1. CPU Section
         System.out.println("---------- CPU ----------");
+        try {
+            System.out.println(cpuReport.summary());
+        } catch (Exception e) {
+            System.out.println("CPU: Unable to read CPU information");
+        }
+        System.out.println();
+        
 
 
 
@@ -21,6 +28,7 @@ public class sysReport {
 
         //3. PCI devices Section
         System.out.println("---------- PCI Devices ----------");
+        
 
 
         //4. USB devices Section
