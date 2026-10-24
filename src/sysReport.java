@@ -14,9 +14,6 @@ public class sysReport {
         }
         System.out.println();
         
-
-
-
         //2. Memory Section
         System.out.println("---------- Memory ----------");
         try {
@@ -28,8 +25,15 @@ public class sysReport {
 
         //3. PCI devices Section
         System.out.println("---------- PCI Devices ----------");
-        
-
+        try {
+            String[] output = pciReport.summary();
+            for (int i=0; i<output.length; i++) {
+                System.out.println(output[i]);
+            }
+        } catch (Exception e) {
+            System.out.println("PCI Devices: 0 (Unable to read PCI devices)");
+        }
+        System.out.println();
 
         //4. USB devices Section
         System.out.println("---------- USB Devices ----------");
