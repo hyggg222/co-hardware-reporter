@@ -8,7 +8,7 @@ public class cpuReport {
     }
 
     public static String[] summary(int cores, String model, long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
-        String[] error = {"CPU: cannot read /proc/stat"};
+        String[] error = {"CPU: cannot read /proc/stat or /proc/cpuInfo"};
 
         if ((cores > 0) && (busy0 != null && idle0 != null && busy1 != null && idle1 != null) && (cores == busy0.length && cores == idle0.length && cores == busy1.length && cores == idle1.length)) {
            String[] summary = new String[cores+3]; //a line for each core + num cores + model + avg load
