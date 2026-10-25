@@ -27,10 +27,9 @@ public class pciReport {
         outputalphabet[0] = String.format("%d PCI Devices ( alphabetically sorted )", numPCI);
 
         for (int i = 0; i < numPCI; i++) {
-            // For linux, assuming all pci devices under domain 0000
             String address = String.format(
                     "%04x:%02x:%02x.%x",
-                    0,
+                    devices[i][6],
                     devices[i][0],
                     devices[i][1],
                     devices[i][2]
@@ -55,10 +54,9 @@ public class pciReport {
 
 
         for (int i = 0; i < numPCI; i++) {
-            // For linux, assuming all pci devices under domain 0000
             String address = String.format(
                     "%04x:%02x:%02x.%x",
-                    0,
+                    devices[i][6],
                     devices[i][0],
                     devices[i][1],
                     devices[i][2]
