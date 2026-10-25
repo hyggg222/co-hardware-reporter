@@ -27,3 +27,9 @@ run: build
 
 clean:
 	rm -rf out lib
+#Generate system hardwre report with systemReport.java
+report:
+	mkdir -p out
+	javac -d out src/*.java
+	java -cp out systemReport > report.txt
+	@echo "Complete System report generated and saved to report.txt"
