@@ -28,8 +28,21 @@ public class systemReport {
         System.out.println("---------- PCI Devices ----------");
         try {
             String[] output = pciReport.summary();
+            String[] alphabetoutput = pciReport.summaryalphabet();
+            String[] bussortoutput = pciReport.summarybussort();
+            String[] vendorcount = PciMethods.vendorCount();
             for (int i=0; i<output.length; i++) {
                 System.out.println(output[i]);
+            }
+            for (int i=0; i<alphabetoutput.length; i++) {
+                System.out.println(alphabetoutput[i]);
+            }
+            for (int i=0; i<bussortoutput.length; i++) {
+                System.out.println(bussortoutput[i]);
+            }
+            System.out.println("Amount of PCI devices per vendor :");
+            for (int i=0; i<vendorcount.length; i++) {
+                System.out.println("  " + vendorcount[i]);
             }
         } catch (Exception e) {
             System.out.println("PCI Devices: 0 (Unable to read PCI devices)");
