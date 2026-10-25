@@ -4,7 +4,7 @@ import java.util.List;
 
 public class cpuReport {
     public static void main(String[] args) throws Exception {        
-            printReport();
+        printReport();
     }
 
     public static String[] summary(int cores, String model, long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {

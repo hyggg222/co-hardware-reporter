@@ -24,17 +24,17 @@ class cpuReportTest
     void unreadable() throws Exception
     {
         //-1
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(1, model, new long[]{-1}, new long[]{-1}, new long[]{-1}, new long[]{-1}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(1, model, new long[]{-1}, new long[]{-1}, new long[]{-1}, new long[]{-1}));
 
         //different lengths
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(3, model, new long[]{1, 2, 3}, new long[]{1, 2}, new long[]{1, 2, 3}, new long[]{1, 2, 3, 4}));
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(4, model, new long[]{1, 2, 3, 4}, new long[]{1, 2, 3}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(3, model, new long[]{1, 2, 3}, new long[]{1, 2}, new long[]{1, 2, 3}, new long[]{1, 2, 3, 4}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(4, model, new long[]{1, 2, 3, 4}, new long[]{1, 2, 3}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
 
         //empty input
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(3, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(3, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
 
         //incorrect num cores
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(0, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
-        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat"}, cpuReport.summary(-1, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(0, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
+        assertArrayEquals(new String[]{"CPU: cannot read /proc/stat or /proc/cpuInfo"}, cpuReport.summary(-1, model, new long[]{}, new long[]{}, new long[]{1, 2, 3}, new long[]{1, 2, 3}));
     }
 }
