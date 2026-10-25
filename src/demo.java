@@ -24,6 +24,7 @@ public class demo
             int device = pciInfo.getDeviceId(i);
             System.out.printf("  %s  %04x:%04x  %s %s%n", pciInfo.getAddress(i), vendor, device,
                               pci.vendorName(vendor), pci.deviceName(vendor, device));
+
         }
 
         idLookup usb = idLookup.usb();
