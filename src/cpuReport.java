@@ -61,7 +61,7 @@ public class cpuReport {
         //baseinfo
         cores = cpuInfo.getCount(); //will be error checked in summary
 
-        String model = cpuInfo.getModel();
+        String model = cpuStats.getModel();
         
         String[] summary = summary(cores, model, busy0, idle0, busy1, idle1);
 
