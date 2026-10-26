@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class pciReportTest {
 @Test
-void summaryTest() throws IOException {
+void summaryTest() throws Exception {
     int[][] devicestestlist = pciStats.getDevices();
 
     idLookup pci = idLookup.pci();
@@ -28,7 +28,7 @@ void summaryTest() throws IOException {
 }
 
 @Test
-void alphabetReportTest() throws IOException {
+void alphabetReportTest() throws Exception {
     int[][] devicestestlist = PciMethods.alphabeticallist();
 
     idLookup pci = idLookup.pci();
@@ -55,7 +55,7 @@ void alphabetReportTest() throws IOException {
 }
 
 @Test
-void busSortReportTest() throws IOException{
+void busSortReportTest() throws Exception{
     int[][] devicestestlist = PciMethods.pcibussort();
 
     idLookup pci = idLookup.pci();
