@@ -2,7 +2,7 @@ public class cpuStats {
     public static long[][] getBaseLoads() throws Exception {
         int cores = cpuInfo.getCount();
 
-        if (cores <= 0) {
+        if (cores <= 0) { //if it doesn't find any cores/gets a negative
             long[][] baseLoads = new long[][]{{-1,-1,-1,-1}};
             return baseLoads;
         }
@@ -61,5 +61,23 @@ public class cpuStats {
         loads[cores] = avg;
 
         return loads;
+    }
+
+    public static String getModel() {
+        String model = cpuInfo.getModel();
+
+        if (model == "unknown") {
+            String[] alternatives = {"CPU part", "CPU implementer"};
+
+            for (int i=0; i<alternatives.length; i++) { //try both options
+                model = cpuInfo.getField(alternatives[i]);
+
+                if (!model.isEmpty()) {
+                    return model; //don't try the second option if the first works
+                }
+            }
+        }
+
+        return model.isEmpty() ? "unknown" : model; //if statement in case neither option works
     }
 }
