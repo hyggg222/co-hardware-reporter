@@ -1,6 +1,7 @@
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class cpuReport {
     public static void main(String[] args) throws Exception {        
@@ -100,11 +101,11 @@ public class cpuReport {
 
         //loads
         System.out.printf("\t\t\"loads\": [\n");
-        for (int i=2; i<summary.length-2; i++) {
-            System.out.printf("\t\t\t\"%s\",\n",summary[i]);
-        }
-        System.out.printf("\t\t\t\"%s\"\n\t\t],\n", summary[summary.length-2]); //the last load ends the list
+        webReport.listJSON(Arrays.stream(summary, 2, summary.length-1).toArray(String[]::new));
+        System.out.printf(",\n");
+
         System.out.printf("\t\t\"average\": \"%s\"\n", summary[summary.length-1]); //the avg
+        
         System.out.printf("\t}");
     }
 }

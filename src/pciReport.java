@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class pciReport {
     public static String[] summary () throws Exception {
         int[][] devices = pciStats.getDevices();
@@ -64,7 +66,7 @@ public class pciReport {
             int vendor = devices[i][3];
             int device = devices[i][4];
             outputbus[i+1] = String.format("  %s  %04x:%04x  %s %s", address, vendor, device,
-                    pci.vendorName(vendor), pci.deviceName(vendor, device));
+                pci.vendorName(vendor), pci.deviceName(vendor, device));
         }
         return outputbus;
     }
@@ -92,5 +94,40 @@ public class pciReport {
             System.out.println("  " + vendorcount[i]);
         }
 
+    }
+
+    public static void printJSON () throws Exception {
+        String[] output = summary();
+        String[] outputAlphabet = summaryalphabet();
+        String[] outputBusSort = summarybussort();
+        String[] vendorCount = PciMethods.vendorCount();
+
+        String starting = String.format(
+            "\t\"pci\": {\n\t\t\"count\": "
+        );
+
+        System.out.printf("%s", starting);
+        System.out.printf("\"There are %s\",\n", output[0]); //count
+
+        //devices
+        System.out.printf("\t\t\"devices\": [\n");
+        webReport.listJSON(Arrays.stream(output, 1, output.length).toArray(String[]::new));
+        System.out.printf(",\n");
+
+        
+
+        System.out.printf("\t\t\"alphaDevices\": [\n"); //devices by alphabet
+        webReport.listJSON(Arrays.stream(outputAlphabet, 1, outputAlphabet.length).toArray(String[]::new));
+        System.out.printf(",\n");
+
+        System.out.printf("\t\t\"busDevices\": [\n"); //devices by bus
+        webReport.listJSON(Arrays.stream(outputBusSort, 1, outputBusSort.length).toArray(String[]::new));
+        System.out.printf(",\n");
+
+
+        System.out.printf("\t\t\"vendorCount\": [\n");
+        webReport.listJSON(vendorCount);
+
+        System.out.printf("\n\t}");
     }
 }
