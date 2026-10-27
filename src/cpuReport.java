@@ -91,12 +91,16 @@ public class cpuReport {
         
         //printing
         String starting = String.format(
-            "\t\"cpu\": {\n\t\t\"model\": "
+            "\t\"cpu\": {\n\t\t"
         );
         String[] summary = summary(cores, model, busy0, idle0, busy1, idle1);
 
         System.out.print(starting);
-        System.out.printf("\"%s\",\n", summary[1]); //model
+        if (summary.length <= cores ) {
+            System.out.printf("\t}");
+            return;
+        }
+        System.out.printf("\"model\": \"%s\",\n", summary[1]); //model
         System.out.printf("\t\t\"count\": \"%s\",\n", summary[0]); //count
 
         //loads

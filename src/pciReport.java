@@ -97,55 +97,74 @@ public class pciReport {
     }
 
     public static void printJSON () throws Exception {
-        String[] output = summary();
-        String[] outputAlphabet = summaryalphabet();
-        String[] outputBusSort = summarybussort();
+        try {
+            String[] output = summary();
+            String[] outputAlphabet = summaryalphabet();
+            String[] outputBusSort = summarybussort();
 
-        String[] baseVendorCount = PciMethods.vendorCount();
-        String[][] vendorCount = new String[baseVendorCount.length][2]; //have every vendor split into a list with its name & count
-        for (int i=0; i<baseVendorCount.length; i++) {
-            vendorCount[i] = baseVendorCount[i].split(" - ");
+            String[] baseVendorCount = PciMethods.vendorCount();
+            String[][] vendorCount = new String[baseVendorCount.length][2]; //have every vendor split into a list with its name & count
+            for (int i=0; i<baseVendorCount.length; i++) {
+                vendorCount[i] = baseVendorCount[i].split(" - ");
+            }
+
+            String starting = String.format(
+                "\t\"pci\": {\n\t\t\"count\": "
+            );
+
+            System.out.printf("%s", starting);
+            System.out.printf("\"There are %s\",\n", output[0]); //count
+
+            //devices
+            System.out.printf("\t\t\"devices\": [\n");
+            if (output.length > 1) {
+                webReport.listJSON(Arrays.stream(output, 1, output.length).toArray(String[]::new));
+                System.out.printf(",\n");
+            } else {
+                System.out.printf("],\n");
+            }
+
+            
+
+            System.out.printf("\t\t\"alphaDevices\": [\n"); //devices by alphabet
+            if (outputAlphabet.length > 1) {
+                webReport.listJSON(Arrays.stream(outputAlphabet, 1, outputAlphabet.length).toArray(String[]::new));
+                System.out.printf(",\n");
+            } else {
+                System.out.printf("],\n");
+            }
+
+            System.out.printf("\t\t\"busDevices\": [\n"); //devices by bus
+            if (outputBusSort.length > 1) {
+                webReport.listJSON(Arrays.stream(outputBusSort, 1, outputBusSort.length).toArray(String[]::new));
+                System.out.printf(",\n");
+            } else {
+                System.out.printf("],\n");
+            }
+
+
+            //vendors
+            System.out.printf("\t\t\"vendorCount\": {\n\t\t\t\"names\": [\n");
+
+            if (baseVendorCount.length > 0) {
+                //names
+                for (int i=0; i<baseVendorCount.length-1; i++) {
+                    System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][0]);
+                }
+                System.out.printf("\t\t\t\t\"%s\"\n\t\t\t],\n", vendorCount[baseVendorCount.length-1][0]); //last vendor
+
+                //counts
+                System.out.printf("\t\t\t\"counts\": [\n");
+                for (int i=0; i<baseVendorCount.length-1; i++) {
+                    System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][1]);
+                }
+                System.out.printf("\t\t\t\t\"%s\"\n\t\t\t]\n\t\t}\n", vendorCount[baseVendorCount.length-1][1]); //last count
+            } else {
+                System.out.printf("]\n}");
+            }
+            System.out.printf("\n\t}");
+        } catch (Exception e) {
+            System.out.println("}");
         }
-
-        String starting = String.format(
-            "\t\"pci\": {\n\t\t\"count\": "
-        );
-
-        System.out.printf("%s", starting);
-        System.out.printf("\"There are %s\",\n", output[0]); //count
-
-        //devices
-        System.out.printf("\t\t\"devices\": [\n");
-        webReport.listJSON(Arrays.stream(output, 1, output.length).toArray(String[]::new));
-        System.out.printf(",\n");
-
-        
-
-        System.out.printf("\t\t\"alphaDevices\": [\n"); //devices by alphabet
-        webReport.listJSON(Arrays.stream(outputAlphabet, 1, outputAlphabet.length).toArray(String[]::new));
-        System.out.printf(",\n");
-
-        System.out.printf("\t\t\"busDevices\": [\n"); //devices by bus
-        webReport.listJSON(Arrays.stream(outputBusSort, 1, outputBusSort.length).toArray(String[]::new));
-        System.out.printf(",\n");
-
-
-        //vendors
-        System.out.printf("\t\t\"vendorCount\": {\n\t\t\t\"names\": [\n");
-
-        //names
-        for (int i=0; i<baseVendorCount.length-1; i++) {
-            System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][0]);
-        }
-        System.out.printf("\t\t\t\t\"%s\"\n\t\t\t],\n", vendorCount[baseVendorCount.length-1][0]); //last vendor
-
-        //counts
-        System.out.printf("\t\t\t\"counts\": [\n");
-        for (int i=0; i<baseVendorCount.length-1; i++) {
-            System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][1]);
-        }
-        System.out.printf("\t\t\t\t\"%s\"\n\t\t\t]\n\t\t}\n", vendorCount[baseVendorCount.length-1][1]); //last count
-
-        System.out.printf("\n\t}");
     }
 }
