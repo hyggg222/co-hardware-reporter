@@ -8,10 +8,10 @@ public class webReport {
 
         //pci
         pciReport.printJSON();
-        // System.out.println(",");
+        System.out.println(",");
 
         //usb
-        // usbReport.printJSON();
+        usbReport.printJSON();
         // System.out.println(",");
 
         // //memory
