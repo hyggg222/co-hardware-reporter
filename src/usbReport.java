@@ -52,8 +52,8 @@ public class usbReport {
                                     usb.vendorName(vendor), usb.deviceName(vendor, product)
                     );
                 }
-                int vendor = usbInfo.getVendorId(0);
-                int product = usbInfo.getProductId(0);
+                int vendor = usbInfo.getVendorId(count-1);
+                int product = usbInfo.getProductId(count-1);
                 System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s%n\"\n\t\t]\n", usbInfo.getBusNumber(count -1),
                                     usbInfo.getDeviceNumber(count-1), vendor, product,
                                     usb.vendorName(vendor), usb.deviceName(vendor, product)
