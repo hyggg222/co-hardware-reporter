@@ -69,7 +69,7 @@ public class pciReport {
         return outputbus;
     }
 
-    public static void main (String[] args) throws Exception {
+    public static void pciPrintReport() throws Exception {
         String[] output = summary();
         String[] outputalphabet = summaryalphabet();
         String[] outputbussort = summarybussort();

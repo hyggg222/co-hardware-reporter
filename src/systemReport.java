@@ -27,10 +27,7 @@ public class systemReport {
         //3. PCI devices Section
         System.out.println("---------- PCI Devices ----------");
         try {
-            String[] output = pciReport.summary();
-            for (int i=0; i<output.length; i++) {
-                System.out.println(output[i]);
-            }
+            pciReport.pciPrintReport();
         } catch (Exception e) {
             System.out.println("PCI Devices: 0 (Unable to read PCI devices)");
         }
