@@ -12,10 +12,10 @@ public class webReport {
 
         //usb
         usbReport.printJSON();
-        // System.out.println(",");
+        System.out.println(",");
 
         // //memory
-        // memReport.printJSON();
+        memReport.printJSON();
         System.out.println();
 
         System.out.println("}");

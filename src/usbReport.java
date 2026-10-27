@@ -40,7 +40,7 @@ public class usbReport {
             System.out.printf("\t\t\"devices\": [\n");
             // Handling systems without usb devices
             if (count == 0) {
-                System.out.print("\t\t\t\"No USB devices found on this system.\"\n\t\t]");
+                System.out.print("\t\t\t\"No USB devices found on this system.\"\n\t\t]\n");
             } else {
                 idLookup usb = idLookup.usb();
                 for (int i = 0; i < count-1; i++) {
@@ -54,15 +54,15 @@ public class usbReport {
                 }
                 int vendor = usbInfo.getVendorId(0);
                 int product = usbInfo.getProductId(0);
-                System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s%n\"\n\t\t]", usbInfo.getBusNumber(count -1),
+                System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s%n\"\n\t\t]\n", usbInfo.getBusNumber(count -1),
                                     usbInfo.getDeviceNumber(count-1), vendor, product,
                                     usb.vendorName(vendor), usb.deviceName(vendor, product)
                 ); //last device
             }
             
-            System.out.println(ending);
+            System.out.printf("%s", ending);
         } catch (Exception e) {
-            System.out.println(ending);
+            System.out.printf("%s", ending);
         }
     }
 }
