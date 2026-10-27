@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ class PciMethodsTest {
             String vendorB = pci.vendorName(b[3]);
 
             if (vendorA == null) {
-                vendorA = "Unknown Origin";
+                vendorA = "Unknown";
             }
 
             if (vendorB == null) {
-                vendorB = "Unknown Origin";
+                vendorB = "Unknown";
             }
 
             return vendorA.compareTo(vendorB);
@@ -62,7 +63,7 @@ class PciMethodsTest {
         String currentVendor = pci.vendorName(devicestest[0][3]);
 
         if (currentVendor == null) {
-            currentVendor = "Unknown Origin";
+            currentVendor = "Unknown";
         }
 
         int count = 1;
@@ -71,7 +72,7 @@ class PciMethodsTest {
             String vendor = pci.vendorName(devicestest[i][3]);
 
             if (vendor == null) {
-                vendor = "Unknown Origin";
+                vendor = "Unknown";
             }
 
             if (vendor.equals(currentVendor)) {
@@ -88,5 +89,11 @@ class PciMethodsTest {
         String[] expected = resultstest.toArray(new String[0]);
 
         assertArrayEquals(expected, PciMethods.vendorCount());
+    }
+
+    @Test
+    void testOrUnknown() {
+        assertEquals("Unknown", PciMethods.orUnknown(null));
+        assertEquals("Intel Corporation", PciMethods.orUnknown("Intel Corporation"));
     }
 }

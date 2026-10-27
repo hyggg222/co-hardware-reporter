@@ -13,10 +13,8 @@ public class usbReport {
                 int vendor = usbInfo.getVendorId(i);
                 int product = usbInfo.getProductId(i);
 
-                System.out.printf("  Bus %03d Device %03d: ID %04x:%04x  %s %s%n", usbInfo.getBusNumber(i),
-                                  usbInfo.getDeviceNumber(i), vendor, product,
-                                  usb.vendorName(vendor), usb.deviceName(vendor, product)
-                );
+                System.out.print(formatUsbDevice(usbInfo.getBusNumber(i), usbInfo.getDeviceNumber(i),
+                                  vendor, product, usb.vendorName(vendor), usb.deviceName(vendor, product)));
             }
         } catch (Exception e) {
             System.err.println("USB devices : 0, (Unable to read USB devices)");
@@ -24,6 +22,7 @@ public class usbReport {
     }
     //Method for mock testing 
     public static String formatUsbDevice(int bus, int device, int vendor, int product, String vendorName, String deviceName) {
-        return String.format("  Bus %03d Device %03d: ID %04x:%04x  %s %s%n", bus, device, vendor, product, vendorName, deviceName);
+        return String.format("  Bus %03d Device %03d: ID %04x:%04x  %s %s%n", bus, device, vendor, product,
+                             PciMethods.orUnknown(vendorName), PciMethods.orUnknown(deviceName));
     }
 }

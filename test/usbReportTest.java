@@ -25,4 +25,10 @@ public class usbReportTest {
         String expected = "  Bus 001 Device 005: ID 8086:1234  Intel Corp.  Test Controller\n";
         assertEquals(expected, result);
     }
+
+    @Test
+    void unknownUsbTest() {
+        assertEquals("  Bus 001 Device 005: ID 1234:5678  Unknown Unknown\n",
+                    usbReport.formatUsbDevice(1, 5, 0x1234, 0x5678, null, null));
+    }
 }

@@ -20,16 +20,8 @@ import java.util.List;
 
             Arrays.sort(devices, (a, b) -> {
 
-                String vendorA = pci.vendorName(a[3]);
-                String vendorB = pci.vendorName(b[3]);
-
-                if (vendorA == null) {
-                    vendorA = "Unknown Origin";
-                }
-
-                if (vendorB == null) {
-                    vendorB = "Unknown Origin";
-                }
+                String vendorA = orUnknown(pci.vendorName(a[3]));
+                String vendorB = orUnknown(pci.vendorName(b[3]));
 
                 return vendorA.compareTo(vendorB);
             });
@@ -59,20 +51,12 @@ import java.util.List;
                 return new String[0];
             }
 
-            String currentVendor = pci.vendorName(devices[0][3]);
-
-            if (currentVendor == null) {
-                currentVendor = "Unknown Origin";
-            }
+            String currentVendor = orUnknown(pci.vendorName(devices[0][3]));
 
             int count = 1;
 
             for (int i = 1; i < devices.length; i++) {
-                String vendor = pci.vendorName(devices[i][3]);
-
-                if (vendor == null) {
-                    vendor = "Unknown Origin";
-                }
+                String vendor = orUnknown(pci.vendorName(devices[i][3]));
 
                 if (vendor.equals(currentVendor)) {
                     count++;
@@ -86,5 +70,10 @@ import java.util.List;
             results.add(currentVendor + " - " + count);
 
             return results.toArray(new String[0]);
+        }
+
+        // The name, or "Unknown" when it is not in the ids file
+        public static String orUnknown(String name) {
+            return name != null ? name : "Unknown";
         }
     }
