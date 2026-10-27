@@ -4,7 +4,7 @@ import java.util.List;
 
 public class cpuReport {
     public static void main(String[] args) throws Exception {        
-        printReport();
+            printReport();
     }
 
     public static String[] summary(int cores, String model, long[] busy0, long[] idle0, long[] busy1, long[] idle1) throws Exception {
@@ -69,5 +69,42 @@ public class cpuReport {
         for (int i=0; i<summary.length; i++) {
             System.out.println(summary[i]);
         }
+    }
+
+    public static void printJSON() throws Exception {
+        long[][] baseLoads = cpuStats.getBaseLoads();
+        int cores = baseLoads.length;
+        String model = cpuStats.getModel();
+
+        long[] busy0 = new long[cores];
+        long[] idle0 = new long[cores];
+        long[] busy1 = new long[cores];
+        long[] idle1 = new long[cores];
+
+        for (int i=0; i<cores; i++) {
+            busy0[i] = baseLoads[i][0];
+            idle0[i] = baseLoads[i][1];
+            busy1[i] = baseLoads[i][2];
+            idle1[i] = baseLoads[i][3];
+        }
+        
+        //printing
+        String starting = String.format(
+            "\t\"cpu\": {\n\t\t\"model\": "
+        );
+        String[] summary = summary(cores, model, busy0, idle0, busy1, idle1);
+
+        System.out.print(starting);
+        System.out.printf("\"%s\",\n", summary[1]); //model
+        System.out.printf("\t\t\"count\": \"%s\",\n", summary[0]); //count
+
+        //loads
+        System.out.printf("\t\t\"loads\": [\n");
+        for (int i=2; i<summary.length-2; i++) {
+            System.out.printf("\t\t\t\"%s\",\n",summary[i]);
+        }
+        System.out.printf("\t\t\t\"%s\"\n\t\t],\n", summary[summary.length-2]); //the last load ends the list
+        System.out.printf("\t\t\"average\": \"%s\"\n", summary[summary.length-1]); //the avg
+        System.out.printf("\t}");
     }
 }
