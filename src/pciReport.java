@@ -100,7 +100,12 @@ public class pciReport {
         String[] output = summary();
         String[] outputAlphabet = summaryalphabet();
         String[] outputBusSort = summarybussort();
-        String[] vendorCount = PciMethods.vendorCount();
+
+        String[] baseVendorCount = PciMethods.vendorCount();
+        String[][] vendorCount = new String[baseVendorCount.length][2]; //have every vendor split into a list with its name & count
+        for (int i=0; i<baseVendorCount.length; i++) {
+            vendorCount[i] = baseVendorCount[i].split(" - ");
+        }
 
         String starting = String.format(
             "\t\"pci\": {\n\t\t\"count\": "
@@ -125,8 +130,21 @@ public class pciReport {
         System.out.printf(",\n");
 
 
-        System.out.printf("\t\t\"vendorCount\": [\n");
-        webReport.listJSON(vendorCount);
+        //vendors
+        System.out.printf("\t\t\"vendorCount\": {\n\t\t\t\"names\": [\n");
+
+        //names
+        for (int i=0; i<baseVendorCount.length-1; i++) {
+            System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][0]);
+        }
+        System.out.printf("\t\t\t\t\"%s\"\n\t\t\t],\n", vendorCount[baseVendorCount.length-1][0]); //last vendor
+
+        //counts
+        System.out.printf("\t\t\t\"counts\": [\n");
+        for (int i=0; i<baseVendorCount.length-1; i++) {
+            System.out.printf("\t\t\t\t\"%s\",\n", vendorCount[i][1]);
+        }
+        System.out.printf("\t\t\t\t\"%s\"\n\t\t\t]\n\t\t}\n", vendorCount[baseVendorCount.length-1][1]); //last count
 
         System.out.printf("\n\t}");
     }

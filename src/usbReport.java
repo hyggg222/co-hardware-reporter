@@ -34,7 +34,7 @@ public class usbReport {
 
         try {
             int count = usbInfo.getCount();
-            System.out.printf("\"count\": %d,\n", count);
+            System.out.printf("\"count\": \"There are %d USB devices\",\n", count);
             
             //devices
             System.out.printf("\t\t\"devices\": [\n");
