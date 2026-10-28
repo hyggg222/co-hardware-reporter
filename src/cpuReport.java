@@ -32,9 +32,9 @@ public class cpuReport {
             double avgLoad = loads[loads.length-1];
             
             for (int i=0; i<loads.length; i++) {
-                summary[i+2] = String.format("Load for core %d: %.2f%%", i, loads[i]);
+                summary[i+2] = String.format("Load for core %d: %6.2f%%", i, loads[i]);
             }
-            summary[summary.length-1] = String.format("Average load per core: %.2f%%", avgLoad);
+            summary[summary.length-1] = String.format("Average load per core: %6.2f%%", avgLoad);
 
             return summary;
         } else {

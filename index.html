@@ -2,45 +2,164 @@
 <html>
     <head>
         <title>System Report</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+        <style>
+            h3 {
+                text-align: center;
+                text-decoration: underline;
+            }
+
+            /*tables*/
+            .column table {
+                margin:auto;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(odd) {
+                background-color: white;
+            }
+            td {
+                text-align: center;
+            }
+
+            /*column layout*/
+            .row {
+                height: 400px;
+                width: 99%;
+                display: flex;
+            }
+            .column {
+                float: left;
+                padding: 10px;
+                height: 95%;
+                text-align: center;
+                width: 32%;
+            }
+
+            .row:after {
+                content: "";
+                clear: both;
+            }
+
+            /* Borders for info blocks */
+            #pci, #usb, #cpu, #memory {
+                border: 1px dashed;
+                border-radius: 1%;
+            }
+
+            /*CPU*/
+            #cpu {
+                background-color: rgb(245, 177, 201);
+            }
+            #cpu tr:nth-child(even) {
+                background-color: magenta;
+            }
+            .bar {
+                background: #564ad9;
+                height: 14px;
+            }
+            #cpu-loads td {
+                width: 200px;
+            }
+
+            /*memory*/
+            #memory {
+                background-color: rgb(250, 180, 152);
+            }
+            #memory-base {
+                text-align: center;
+            }
+            
+            /*USB*/
+            #usb {
+                background-color: palegoldenrod;
+            }
+            #usb tr:nth-child(even) {
+                background-color: goldenrod;
+            }
+            
+            /*pci*/
+            #pci, #pci > div {
+                background-color: rgb(185, 245, 185);
+            }
+            #pci .row {
+                float: left;
+                padding: 10px;
+            }
+            #pci h3 {
+                display: block;
+            }
+            #pci > p, #pci > div {
+                float: left;
+            }
+            #pci tr:nth-child(even) {
+                background-color: green;
+            }
+
+            #pci-vendors {
+                margin-left: 10px;
+                width: 30%;
+            }
+
+            #pci-base {
+                width: 6%;
+            }
+            #pci-devices {
+                width: 60%;
+            }
+        </style>
     </head>
 
     <body>
-        <div id="cpu">
-            <p id="cpu-base">
-                <!--count & model filled in automatically-->
-            </p>
-            <table id="cpu-loads">
-                <!--loads & average filled in automatically-->
-            </table>
+        <div class="row">
+            <div id="cpu" class="column">
+                <h3>CPU Info</h3>
+                <p id="cpu-base">
+                    <!--count & model filled in automatically-->
+                </p>
+                <table id="cpu-loads">
+                    <!--loads & average filled in automatically-->
+                </table>
+            </div>
+
+            <div id="memory" class="column">
+                <h3>Memory Info</h3>
+                <canvas id="memChart" style="width:100%;max-width:600px"></canvas>
+                <p id="memory-base">
+                    <!--percentage filled in automatically-->
+                </p>
+            </div>
+
+            
+            <div id="usb" class="column">
+                <h3>USB Info</h3>
+                <p id="usb-base">
+                    <!--count filled in automatically-->
+                </p>
+                <table id="usb-devices">
+                    <!--devices filled in automatically-->
+                </table>
+            </div>
         </div>
-        <hr/>
 
         <div id="pci">
-            <p id="pci-base">
-                <!--count filled in automatically-->
-            </p>
-            <table id="pci-devices">
-                <!--devices filled in automatically-->
-            </table>
-            <table id="pci-vendors">
-                <!--vendors filled in automatically-->
-            </table>
-        </div>
-        <hr/>
+            <h3>PCI Info</h3>
+            <div class="row">
+                <p id="pci-base">
+                    <!--count filled in automatically-->
+                </p>
 
-        <div id="usb">
-            <p id="usb-base">
-                <!--count filled in automatically-->
-            </p>
-            <table id="usb-devices">
-                <!--devices filled in automatically-->
-            </table>
+                <table id="pci-devices">
+                    <!--devices filled in automatically-->
+                </table>
+                
+                <table id="pci-vendors">
+                    <!--vendors filled in automatically-->
+                </table>
+            </div>
         </div>
-        <hr/>
-
-        <p id="memory">
-            <!--total, used & percentage filled in automatically-->
-        </p>
     </body>
 
     

@@ -23,10 +23,27 @@ public class memReport
 
     public static void printJSON() {
         String start = String.format(
-            "\t\"memory\": "
+            "\t\"memory\": {\n"
         );
 
+        long total = memInfo.getTotal();
+        long available = memInfo.getAvailable();
+
+        if (total < 0 || available < 0){
+            System.out.println(start);
+            System.out.println("}");
+            return;
+        }
+
+        long used = total - available;
+        if (used < 0) {
+            System.out.println("}");
+        }
+        
         System.out.printf("%s", start);
-        System.out.printf("\"%s\"", summary(memInfo.getTotal(), memInfo.getAvailable()));
+        System.out.printf("\t\t\"total\": %.2f,\n", memStats.toGiB(total));
+        System.out.printf("\t\t\"used\": %.2f,\n", memStats.toGiB(used));
+        System.out.printf("\t\t\"percent\": \"Using %.2f%% of total memory\"\n", memStats.percentUsed(total, used));
+        System.out.printf("\t}");
     }
 }

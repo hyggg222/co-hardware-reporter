@@ -38,4 +38,5 @@ export:
 	mkdir -p out
 	javac -d out src/*.java
 	java -cp out webReport > report.json
+	@echo "Info saved to report.json."
 	npx serve

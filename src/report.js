@@ -25,24 +25,50 @@ function fillOutCPU(cpuData) {
     const loads = Object.keys(cpuData).includes("loads") ? cpuData.loads : ["The loads could not be read."];
     const average = Object.keys(cpuData).includes("average") ? cpuData.average : "The average load could not be read.";
 
-    baseInfo.innerHTML = "CPU Info: <br/>"+count+" "+model;
+    baseInfo.innerHTML = count+" "+model;
     //plus model, number of cores
     
     //loads
-    loadTable.innerHTML = "<caption>CPU Loads:</caption>";
+    loadTable.innerHTML = "<caption>Loads:</caption>";
     loadTable.border = "1";
 
     loads.forEach(item => {
         const row = document.createElement("tr");
 
-        const cell = document.createElement("td");
-        cell.textContent = item;
-        row.appendChild(cell);
+        const textCell = document.createElement("td");
+        textCell.textContent = item;
+        row.appendChild(textCell);
+
+        if (item.endsWith("%")) {
+            addBar(item, row);
+        }
         
         loadTable.appendChild(row);
     });
-    //for real one, have headers Core, Loads
-    loadTable.innerHTML += "<td>"+average+"</td></tr>"; //add average, end the last row
+
+    //add average
+    const avgRow = document.createElement("tr");
+    const avgCell = document.createElement("td");
+    avgCell.textContent = average;
+    avgRow.appendChild(avgCell);
+
+    if (average.endsWith("%")) {
+        addBar(average, avgRow);
+    }
+    loadTable.appendChild(avgRow);
+}
+
+function addBar(item, row) { //add a bar representing % to a table
+    let percent = item.substring(item.length-7, item.length); //get the percent
+
+    const barCell = document.createElement("td"); //make a div with the bar for the load
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.width = percent;
+
+    barCell.appendChild(bar); //add the bar to the cell
+    row.appendChild(barCell); //add the cell to the row
+
 }
 
 function fillOutPCI(pciData) {
@@ -66,7 +92,7 @@ function fillOutPCI(pciData) {
         busDevices = ["The devices could not be read."];
     }
 
-    base.innerHTML = "PCI Devices: <br/>";
+    base.innerHTML = "";
     base.innerHTML += count;
     
     //make device table
@@ -101,7 +127,7 @@ function fillOutPCI(pciData) {
     }
 
     //make vendor table
-    vendorTable.innerHTML = "<caption>PCI Vendors:</caption>";
+    vendorTable.innerHTML = "";
     vendorTable.border = "1";
 
         //Add headers
@@ -153,7 +179,7 @@ function fillOutUSB(usbData) {
 
     let devices = Object.keys(usbData).includes("devices") ? usbData.devices : ["The devices could not be read."];
 
-    base.innerHTML = "USB Devices: <br/>";
+    base.innerHTML = "";
     base.innerHTML += count;
     
     //make device table
@@ -172,5 +198,35 @@ function fillOutUSB(usbData) {
 }
 
 function fillOutMem(memData) {
-    document.getElementById("memory").innerHTML = memData;
+    const used = Object.keys(memData).includes("used") ? memData.used : -1;
+    const total = Object.keys(memData).includes("total") ? memData.total : -1;
+
+    const percent = Object.keys(memData).includes("percent") ? memData.percent : "Memory couldn't be read";
+    document.getElementById("memory-base").innerHTML = percent;
+
+    const barColors = [
+    "red",
+    "green"
+    ];
+
+    const chart = document.getElementById("memChart");
+    chart.innerHTML = "";
+    if (used >= 0 && total > used) {
+        new Chart(chart, {
+            type: "pie",
+            data: {
+                labels: ["Used", "Unused"],
+                datasets: [{
+                backgroundColor: barColors,
+                data: [used, total-used]
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: "Memory Usage (GiB)"
+                }
+            }
+        });
+    }
 }

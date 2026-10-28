@@ -14,7 +14,7 @@ public class webReport {
         usbReport.printJSON();
         System.out.println(",");
 
-        // //memory
+        //memory
         memReport.printJSON();
         System.out.println();
 
