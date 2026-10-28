@@ -15,24 +15,26 @@
             }
 
             /*tables*/
-            .column table {
+            /*centering*/
+            .column table { 
                 margin:auto;
             }
+            td {
+                text-align: center;
+            }
+            /*alternating colours*/
             tr:nth-child(even) {
                 background-color: #f2f2f2;
             }
             tr:nth-child(odd) {
                 background-color: white;
             }
-            td {
-                text-align: center;
-            }
 
             /*column layout*/
             .row {
                 height: 450px;
                 display: flex;
-                overflow: hidden;
+                overflow: hidden; /*make sure the bg colours don't go over the borders*/
             }
             .column {
                 float: left;
@@ -41,7 +43,6 @@
                 text-align: center;
                 width: 33%;
             }
-
             .row:after {
                 content: "";
                 clear: both;
@@ -60,6 +61,8 @@
             #cpu tr:nth-child(even) {
                 background-color: magenta;
             }
+
+            /*the load bars*/
             .bar {
                 background: #564ad9;
                 height: 14px;
@@ -87,31 +90,28 @@
             /*pci*/
             #pci {
                 background-color: rgb(185, 245, 185);
-                overflow: auto;
+                overflow: auto; /*make sure the border & bg colour cover all the info*/
             }
             #pci .row {
                 float: left;
                 padding: 10px;
             }
-            #pci h3 {
+            #pci h3 { /*make sure the heading is above the rest*/
                 display: block;
-            }
-            #pci > p, #pci > div {
-                float: left;
             }
             #pci tr:nth-child(even) {
                 background-color: green;
             }
 
             #pci-vendors {
-                margin-left: 2%;
-                width: 30%;
+                margin-left: 3%;
+                width: 25%;
             }
-
             #pci-base {
-                width: 8%;
+                width: 10%;
             }
             #pci-devices {
+                margin-left: 2%;
                 width: 60%;
             }
         </style>

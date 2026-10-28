@@ -7,7 +7,7 @@ async function loadData() {
     const cpuData = await Object.keys(data).includes("cpu") ? data.cpu : {};
     const pciData = await Object.keys(data).includes("pci") ? data.pci : {};
     const usbData = await Object.keys(data).includes("usb") ? data.usb : {};
-    const memData = await Object.keys(data).includes("memory") ? data.memory : "Memory: Couldn't read memory";
+    const memData = await Object.keys(data).includes("memory") ? data.memory : {};
 
 
     fillOutCPU(cpuData);
@@ -26,7 +26,6 @@ function fillOutCPU(cpuData) {
     const average = Object.keys(cpuData).includes("average") ? cpuData.average : "The average load could not be read.";
 
     baseInfo.innerHTML = count+" "+model;
-    //plus model, number of cores
     
     //loads
     loadTable.innerHTML = "<caption>Loads:</caption>";
