@@ -11,10 +11,7 @@ public class pciReport {
         output[0] = String.format("%d PCI Devices", numPCI);
 
         for (int i = 0; i < numPCI; i++) {
-            int vendor = devices[i][3];
-            int device = devices[i][4];
-            output[i+1] = String.format("  %s  %04x:%04x  %s %s", pciInfo.getAddress(i), vendor, device,
-                              pci.vendorName(vendor), pci.deviceName(vendor, device));
+            output[i+1] = format(devices[i], pci);
         }
         return output;
     }
@@ -29,17 +26,7 @@ public class pciReport {
         outputalphabet[0] = String.format("%d PCI Devices ( alphabetically sorted )", numPCI);
 
         for (int i = 0; i < numPCI; i++) {
-            String address = String.format(
-                    "%04x:%02x:%02x.%x",
-                    devices[i][6],
-                    devices[i][0],
-                    devices[i][1],
-                    devices[i][2]
-            );
-            int vendor = devices[i][3];
-            int device = devices[i][4];
-            outputalphabet[i+1] = String.format("  %s  %04x:%04x  %s %s", address, vendor, device,
-                    pci.vendorName(vendor), pci.deviceName(vendor, device));
+            outputalphabet[i+1] = format(devices[i], pci);
         }
 
         return outputalphabet;
@@ -56,22 +43,23 @@ public class pciReport {
 
 
         for (int i = 0; i < numPCI; i++) {
-            String address = String.format(
-                    "%04x:%02x:%02x.%x",
-                    devices[i][6],
-                    devices[i][0],
-                    devices[i][1],
-                    devices[i][2]
-            );
-            int vendor = devices[i][3];
-            int device = devices[i][4];
-            outputbus[i+1] = String.format("  %s  %04x:%04x  %s %s", address, vendor, device,
-                pci.vendorName(vendor), pci.deviceName(vendor, device));
+            outputbus[i+1] = format(devices[i], pci);
         }
         return outputbus;
     }
 
-    public static void main (String[] args) throws Exception {
+    // One PCI line: address, IDs, class, vendor and device name
+    public static String format(int[] d, idLookup pci) {
+        String address = String.format("%04x:%02x:%02x.%x", d[6], d[0], d[1], d[2]);
+        String cls = pci.className(d[5]);
+        if (cls == null) {
+            cls = String.format("%06x", d[5]);
+        }
+        return String.format("  %s  %04x:%04x  %s: %s %s", address, d[3], d[4], cls,
+                PciMethods.orUnknown(pci.vendorName(d[3])), PciMethods.orUnknown(pci.deviceName(d[3], d[4])));
+    }
+
+    public static void pciPrintReport() throws Exception {
         String[] output = summary();
         String[] outputalphabet = summaryalphabet();
         String[] outputbussort = summarybussort();
