@@ -85,7 +85,7 @@ function fillOutPCI(pciData) {
     let alphaDevices = Object.keys(pciData).includes("alphaDevices") ? pciData.alphaDevices : ["The devices could not be read."];
     let busDevices = Object.keys(pciData).includes("busDevices") ? pciData.busDevices : ["The devices could not be read."];
 
-    if (devices.length <= 0 || alphaDevicess.length <= 0 || busDevices.length <= 0 || devices.length != alphaDevices.length || devices.length != busDevices.length) { //make sure the devices all show the same number of devices
+    if (devices.length <= 0 || alphaDevices.length <= 0 || busDevices.length <= 0 || devices.length != alphaDevices.length || devices.length != busDevices.length) { //make sure the devices all show the same number of devices
         devices = ["The devices could not be read."];
         alphaDevices = ["The devices could not be read."];
         busDevices = ["The devices could not be read."];
