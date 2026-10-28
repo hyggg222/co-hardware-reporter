@@ -26,16 +26,16 @@
 
             /*column layout*/
             .row {
-                height: 400px;
-                width: 99%;
+                height: 450px;
                 display: flex;
+                overflow: hidden;
             }
             .column {
                 float: left;
                 padding: 10px;
                 height: 95%;
                 text-align: center;
-                width: 32%;
+                width: 33%;
             }
 
             .row:after {
@@ -45,7 +45,7 @@
 
             /* Borders for info blocks */
             #pci, #usb, #cpu, #memory {
-                border: 1px dashed;
+                border: 2px dashed;
                 border-radius: 1%;
             }
 
@@ -81,8 +81,9 @@
             }
             
             /*pci*/
-            #pci, #pci > div {
+            #pci {
                 background-color: rgb(185, 245, 185);
+                overflow: auto;
             }
             #pci .row {
                 float: left;
@@ -99,12 +100,12 @@
             }
 
             #pci-vendors {
-                margin-left: 10px;
+                margin-left: 2%;
                 width: 30%;
             }
 
             #pci-base {
-                width: 6%;
+                width: 8%;
             }
             #pci-devices {
                 width: 60%;
