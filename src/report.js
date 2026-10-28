@@ -22,7 +22,7 @@ function fillOutCPU(cpuData) {
 
     const model = Object.keys(cpuData).includes("model") ? cpuData.model : "The model could not be read.";
     const count = Object.keys(cpuData).includes("count") ? cpuData.count : "The number of cores could not be read.";
-    const loads = Object.keys(cpuData).includes("loads") ? cpuData.loads : ["The loads could not be read."];
+    let loads = Object.keys(cpuData).includes("loads") ? cpuData.loads : ["The loads could not be read."];
     const average = Object.keys(cpuData).includes("average") ? cpuData.average : "The average load could not be read.";
 
     baseInfo.innerHTML = count+" "+model;
@@ -30,6 +30,10 @@ function fillOutCPU(cpuData) {
     //loads
     loadTable.innerHTML = "<caption>Loads:</caption>";
     loadTable.border = "1";
+
+    if (loads.length <= 0) { //make sure error message shows up
+        loads = ["The loads could not be read."]
+    }
 
     loads.forEach(item => {
         const row = document.createElement("tr");
@@ -85,7 +89,8 @@ function fillOutPCI(pciData) {
     let alphaDevices = Object.keys(pciData).includes("alphaDevices") ? pciData.alphaDevices : ["The devices could not be read."];
     let busDevices = Object.keys(pciData).includes("busDevices") ? pciData.busDevices : ["The devices could not be read."];
 
-    if (devices.length <= 0 || alphaDevices.length <= 0 || busDevices.length <= 0 || devices.length != alphaDevices.length || devices.length != busDevices.length) { //make sure the devices all show the same number of devices
+    //make sure the tables all show the same number of devices
+    if (devices.length <= 0 || alphaDevices.length <= 0 || busDevices.length <= 0 || devices.length != alphaDevices.length || devices.length != busDevices.length) { 
         devices = ["The devices could not be read."];
         alphaDevices = ["The devices could not be read."];
         busDevices = ["The devices could not be read."];
@@ -129,45 +134,45 @@ function fillOutPCI(pciData) {
     vendorTable.innerHTML = "";
     vendorTable.border = "1";
 
-        //Add headers
-        const vendorHeaders = ["Vendor", "Count"];
-        const vendorHeaderRow = document.createElement("tr");
+    //Add headers
+    const vendorHeaders = ["Vendor", "Count"];
+    const vendorHeaderRow = document.createElement("tr");
 
-        vendorHeaders.forEach(text => {
-            const th = document.createElement("th");
-            th.textContent = text;
-            vendorHeaderRow.appendChild(th);
-        });
-        vendorTable.appendChild(vendorHeaderRow);
+    vendorHeaders.forEach(text => {
+        const th = document.createElement("th");
+        th.textContent = text;
+        vendorHeaderRow.appendChild(th);
+    });
+    vendorTable.appendChild(vendorHeaderRow);
 
-        // Add device rows
-        if (Object.keys(vendorCountObj).includes("names") && Object.keys(vendorCountObj).includes("counts") && vendorCountObj.names.length == vendorCountObj.counts.length) {
-            for (let i=0; i<vendorCountObj.names.length; i++) {
-                const row = document.createElement("tr");
-
-                const nameCell = document.createElement("td");
-                const countCell = document.createElement("td");
-
-                nameCell.innerText = vendorCountObj.names[i];
-                countCell.innerText = vendorCountObj.counts[i];
-
-                row.appendChild(nameCell);
-                row.appendChild(countCell);
-                vendorTable.appendChild(row);
-            }
-        } else {
+    // Add device rows
+    if (Object.keys(vendorCountObj).includes("names") && Object.keys(vendorCountObj).includes("counts") && vendorCountObj.names.length == vendorCountObj.counts.length) {
+        for (let i=0; i<vendorCountObj.names.length; i++) {
             const row = document.createElement("tr");
 
             const nameCell = document.createElement("td");
             const countCell = document.createElement("td");
 
-            nameCell.innerText = "Couldn't read vendors";
-            countCell.innerText = "Couldn't read counts";
+            nameCell.innerText = vendorCountObj.names[i];
+            countCell.innerText = vendorCountObj.counts[i];
 
             row.appendChild(nameCell);
             row.appendChild(countCell);
             vendorTable.appendChild(row);
         }
+    } else {
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        const countCell = document.createElement("td");
+
+        nameCell.innerText = "Couldn't read vendors";
+        countCell.innerText = "Couldn't read counts";
+
+        row.appendChild(nameCell);
+        row.appendChild(countCell);
+        vendorTable.appendChild(row);
+    }
 }
 
 function fillOutUSB(usbData) {
@@ -184,6 +189,10 @@ function fillOutUSB(usbData) {
     //make device table
     deviceTable.innerHTML = "<caption>USB Devices</caption>";
     deviceTable.border = "1";
+
+    if (devices.length <= 0) { //make sure error msg shows
+        devices = ["The devices could not be read."];
+    }
 
     devices.forEach(device => {
         const row = document.createElement("tr");
@@ -209,8 +218,9 @@ function fillOutMem(memData) {
     ];
 
     const chart = document.getElementById("memChart");
-    chart.innerHTML = "";
     if (used >= 0 && total > used) {
+        chart.innerHTML = "";
+
         new Chart(chart, {
             type: "pie",
             data: {
