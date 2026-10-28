@@ -46,14 +46,14 @@ public class usbReport {
                     int vendor = usbInfo.getVendorId(i);
                     int product = usbInfo.getProductId(i);
 
-                    System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s%n\",\n", usbInfo.getBusNumber(i),
+                    System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s\",\n", usbInfo.getBusNumber(i),
                                     usbInfo.getDeviceNumber(i), vendor, product,
                                     usb.vendorName(vendor), usb.deviceName(vendor, product)
                     );
                 }
                 int vendor = usbInfo.getVendorId(count-1);
                 int product = usbInfo.getProductId(count-1);
-                System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s%n\"\n\t\t]\n", usbInfo.getBusNumber(count -1),
+                System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s\"\n\t\t]\n", usbInfo.getBusNumber(count -1),
                                     usbInfo.getDeviceNumber(count-1), vendor, product,
                                     usb.vendorName(vendor), usb.deviceName(vendor, product)
                 ); //last device
