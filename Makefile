@@ -1,4 +1,4 @@
-MAIN ?= demo
+MAIN ?= systemReport
 JUNIT_VERSION = 1.11.4
 JUNIT_JAR = lib/junit-platform-console-standalone-$(JUNIT_VERSION).jar
 JUNIT_SHA256 = b016ef6b1c3454d6d7c2c88ce081dabf289699686af6622d6e4e2e1b54b4a2fc
@@ -33,3 +33,9 @@ report:
 	javac -d out src/*.java
 	java -cp out systemReport > report.txt
 	@echo "Complete System report generated and saved to report.txt"
+
+export:
+	mkdir -p out
+	javac -d out src/*.java
+	java -cp out webReport > report.json
+	npx serve

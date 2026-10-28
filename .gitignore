@@ -1,5 +1,6 @@
 # Build output
 report.txt
+report.json
 out/
 *.class
 build/

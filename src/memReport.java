@@ -20,4 +20,13 @@ public class memReport
     {
         System.out.println(summary(memInfo.getTotal(), memInfo.getAvailable()));
     }
+
+    public static void printJSON() {
+        String start = String.format(
+            "\t\"memory\": "
+        );
+
+        System.out.printf("%s", start);
+        System.out.printf("\"%s\"", summary(memInfo.getTotal(), memInfo.getAvailable()));
+    }
 }

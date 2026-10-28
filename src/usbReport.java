@@ -25,4 +25,43 @@ public class usbReport {
         return String.format("  Bus %03d Device %03d: ID %04x:%04x  %s %s%n", bus, device, vendor, product,
                              PciMethods.orUnknown(vendorName), PciMethods.orUnknown(deviceName));
     }
+
+    public static void printJSON() {
+        String starting = String.format("\t\"usb\": {\n\t\t"); //starting line
+        String ending = String.format("\t}"); //ending line
+        System.out.printf("%s", starting);
+
+        try {
+            int count = usbInfo.getCount();
+            System.out.printf("\"count\": \"There are %d USB devices\",\n", count);
+            
+            //devices
+            System.out.printf("\t\t\"devices\": [\n");
+            // Handling systems without usb devices
+            if (count == 0) {
+                System.out.print("\t\t\t\"No USB devices found on this system.\"\n\t\t]\n");
+            } else {
+                idLookup usb = idLookup.usb();
+                for (int i = 0; i < count-1; i++) {
+                    int vendor = usbInfo.getVendorId(i);
+                    int product = usbInfo.getProductId(i);
+
+                    System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s\",\n", usbInfo.getBusNumber(i),
+                                    usbInfo.getDeviceNumber(i), vendor, product,
+                                    usb.vendorName(vendor), usb.deviceName(vendor, product)
+                    );
+                }
+                int vendor = usbInfo.getVendorId(count-1);
+                int product = usbInfo.getProductId(count-1);
+                System.out.printf("\t\t\t\"Bus %03d Device %03d: ID %04x:%04x  %s %s\"\n\t\t]\n", usbInfo.getBusNumber(count -1),
+                                    usbInfo.getDeviceNumber(count-1), vendor, product,
+                                    usb.vendorName(vendor), usb.deviceName(vendor, product)
+                ); //last device
+            }
+            
+            System.out.printf("%s", ending);
+        } catch (Exception e) {
+            System.out.printf("%s", ending);
+        }
+    }
 }
