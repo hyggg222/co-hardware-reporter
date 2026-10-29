@@ -31,4 +31,16 @@ public class usbReportTest {
         assertEquals("  Bus 001 Device 005: ID 1234:5678  Unknown Unknown\n",
                     usbReport.formatUsbDevice(1, 5, 0x1234, 0x5678, null, null));
     }
+
+    @Test
+    void jsonDeviceTest() {
+        assertEquals("\"Bus 001 Device 005: ID 8086:1234  Intel Corp. Test Controller\"",
+                    usbReport.jsonDevice(1, 5, 0x8086, 0x1234, "Intel Corp.", "Test Controller"));
+    }
+
+    @Test
+    void unknownJsonDeviceTest() {
+        assertEquals("\"Bus 001 Device 005: ID 1234:5678  Unknown Unknown\"",
+                    usbReport.jsonDevice(1, 5, 0x1234, 0x5678, null, null));
+    }
 }
