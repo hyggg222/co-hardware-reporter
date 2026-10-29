@@ -1,4 +1,4 @@
-Chart.defaults.global.defaultFontColor = "black"; //change font colour for all charts
+Chart.defaults.global.defaultFontColor = "#e6e9ef"; //change font colour for all charts
 
 loadData();
 
@@ -32,10 +32,11 @@ function fillOutCPU(cpuData) {
     let loads = Object.keys(cpuData).includes("loads") ? cpuData.loads : ["The loads could not be read."];
     const average = Object.keys(cpuData).includes("average") ? cpuData.average : "The average load could not be read.";
 
-    baseInfo.innerHTML = count+" "+model;
+    baseInfo.innerHTML = model;
     
     //loads
-    loadTable.innerHTML = "<caption>Loads:</caption>";
+    const cores = String(count).match(/\d+/); //"There are 16 cores" -> 16
+    loadTable.innerHTML = "<caption>"+(cores ? cores[0]+" CPU Core(s)" : "Loads:")+"</caption>";
     loadTable.border = "1";
 
     if (loads.length <= 0) { //make sure error message shows up
@@ -46,7 +47,7 @@ function fillOutCPU(cpuData) {
         const row = document.createElement("tr");
 
         const textCell = document.createElement("td");
-        textCell.textContent = item;
+        textCell.textContent = item.replace("Load for core ", "Core "); //shorter, so the tile stays small
         row.appendChild(textCell);
 
         if (item.endsWith("%")) {
@@ -82,11 +83,9 @@ function addBar(item, row) { //add a bar representing % to a table
 }
 
 function fillOutPCI(pciData) {
-    const base = document.getElementById("pci-base");
     const deviceTable = document.getElementById("pci-devices");
     const vendorTable = document.getElementById("pci-vendors");
     
-    const count = Object.keys(pciData).includes("count") ? pciData.count : "The number of PCI devices could not be read.";
     const vendorCountObj = Object.keys(pciData).includes("vendorCount") ? pciData.vendorCount : {
         "names": [],
         "counts": []
@@ -103,9 +102,6 @@ function fillOutPCI(pciData) {
         busDevices = ["The devices could not be read."];
     }
 
-    base.innerHTML = "";
-    base.innerHTML += count;
-    
     //make device table
     deviceTable.innerHTML = "";
     deviceTable.border = "1";
@@ -164,8 +160,16 @@ function fillOutPCI(pciData) {
                     display: false
                 },
                 scales: { //make the vendor count start at 0
+                    xAxes: [{
+                        gridLines: {
+                            color: "white"
+                        }
+                    }],
                     yAxes: [{
                         display: true,
+                        gridLines: {
+                            color: "white"
+                        },
                         ticks: {
                             beginAtZero: true
                         }
@@ -224,16 +228,10 @@ function fillOutPCI(pciData) {
 }
 
 function fillOutUSB(usbData) {
-    const base = document.getElementById("usb-base");
     const deviceTable = document.getElementById("usb-devices");
     
-    const count = Object.keys(usbData).includes("count") ? usbData.count : "The number of USB devices could not be read.";
-
     let devices = Object.keys(usbData).includes("devices") ? usbData.devices : ["The devices could not be read."];
 
-    base.innerHTML = "";
-    base.innerHTML += count;
-    
     //make device table
     deviceTable.innerHTML = "<caption>USB Devices</caption>";
     deviceTable.border = "1";

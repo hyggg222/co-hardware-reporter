@@ -1,10 +1,17 @@
 body {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #0f141b;
+    color: #e6e9ef;
+    padding: 16px;
 }
 
+h1 {
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
 h3 {
     text-align: center;
-    text-decoration: underline;
+    text-transform: uppercase;
 }
 
 #load-error {
@@ -22,15 +29,20 @@ td {
 }
 /*alternating colours*/
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #1c2530;
 }
 tr:nth-child(odd) {
-    background-color: white;
+    background-color: #161d27;
+}
+table, td, th {
+    border-color: #2a3442;
 }
 
 /*column layout*/
 .row {
     min-height: 450px;
+    gap: 12px;
+    margin-bottom: 12px;
     display: flex;
     overflow: hidden; /*make sure the bg colours don't go over the borders*/
 }
@@ -49,25 +61,71 @@ tr:nth-child(odd) {
 #pci, #usb, #cpu, #memory {
     border: 2px solid;
     border-radius: 8px;
+    background-color: #161d27;
 }
 
 /*CPU*/
 #cpu {
-    border-color: #2456c9;
+    border-color: #4d8dff;
 }
 
 /*the load bars*/
 .bar {
-    background: #2456c9;
-    height: 14px;
+    background: #4d8dff;
+    height: 6px;
+}
+
+/*the cores as tiles, the average as a ring on the left*/
+#cpu-loads {
+    display: grid;
+    grid-template-columns: 110px repeat(3, 1fr);
+    gap: 8px;
+    border: 0;
+}
+#cpu-loads caption {
+    display: block;
+    grid-column: 1 / -1;
+    text-align: left;
+}
+#cpu-loads tr {
+    display: block;
+    padding: 6px 4px;
+    font-size: 13px;
+    border: 1px solid #2a3442;
+    border-radius: 6px;
+    background-color: #1f2a36;
 }
 #cpu-loads td {
-    width: 200px;
+    display: block;
+    border: 0;
+    padding: 0;
+}
+#cpu-loads td:nth-child(2) { /*bar track*/
+    margin-top: 4px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #2a3442;
+}
+#cpu-loads tr:last-child { /*average*/
+    grid-column: 1;
+    grid-row: 2 / span 6;
+    align-self: start;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 8px solid #4d8dff;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+}
+#cpu-loads tr:last-child td:nth-child(2) {
+    display: none;
 }
 
 /*memory*/
 #memory {
-    border-color: #0b7f77;
+    border-color: #2bb3a8;
 }
 #memory-base {
     text-align: center;
@@ -75,12 +133,12 @@ tr:nth-child(odd) {
 
 /*USB*/
 #usb {
-    border-color: #b85c00;
+    border-color: #f08a24;
 }
 
 /*pci*/
 #pci {
-    border-color: #6b3fb5;
+    border-color: #a98bd9;
     overflow: auto; /*make sure the border & bg colour cover all the info*/
 }
 #pci .row {
@@ -100,8 +158,8 @@ tr:nth-child(odd) {
     display: none;
     text-align: center;
 }
-#pci-base {
-    width: 10%;
+#pci tr:nth-child(even) {
+    background-color: #1f7a3a;
 }
 #pci-devices {
     margin-left: 2%;
