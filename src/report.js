@@ -66,6 +66,10 @@ function fillOutCPU(cpuData) {
     if (average.endsWith("%")) {
         addBar(average, avgRow);
     }
+    const percent = parseFloat(average.substring(average.length-7)); //same way addBar reads it
+    if (!isNaN(percent)) {
+        avgRow.style.setProperty("--percent", percent); //fills the ring
+    }
     loadTable.appendChild(avgRow);
 }
 
@@ -173,14 +177,15 @@ function fillOutPCI(pciData) {
                             color: "white"
                         },
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            precision: 0 //device counts are whole numbers
                         }
                     }]
                 }
             }
         });
     } else { //display error message, hide chart
-        document.getElementById("pci-vendors").style.display = "none";
+        document.getElementById("pci-chart").style.display = "none";
         document.getElementById("pci-vendor-error").style.display = "flex";
     }
 
@@ -282,6 +287,16 @@ function fillOutMem(memData) {
                 title: {
                 display: true,
                 text: "Memory Usage (GiB)"
+                },
+                tooltips: {
+                    callbacks: { //show the exact percent of each part, not just the GiB
+                        label: (item, data) => {
+                            const gib = data.datasets[0].data[item.index];
+                            const usedPercent = parseFloat(String(percent).replace(/[^\d.]/g, "")); //"Using 15.42% of total memory" -> 15.42
+                            const share = isNaN(usedPercent) ? gib / total * 100 : (item.index == 0 ? usedPercent : 100 - usedPercent);
+                            return data.labels[item.index] + ": " + gib.toFixed(2) + " GiB (" + share.toFixed(2) + "%)";
+                        }
+                    }
                 }
             }
         });
