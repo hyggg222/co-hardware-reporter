@@ -104,9 +104,14 @@
                 background-color: green;
             }
 
-            #pci-vendors {
+            #pci-vendors, #pci-vendor-error {
                 margin-left: 3%;
                 width: 25%;
+                max-width: 600px;
+            }
+            #pci-vendor-error {
+                display: none;
+                text-align: center;
             }
             #pci-base {
                 width: 10%;
@@ -161,9 +166,11 @@
                     <!--devices filled in automatically-->
                 </table>
                 
-                <table id="pci-vendors">
+                <canvas id="pci-vendors" style="width:100%">
                     <!--vendors filled in automatically-->
-                </table>
+                </canvas>
+
+                <p id="pci-vendor-error">Vendors couldn't be read</p>
             </div>
         </div>
     </body>

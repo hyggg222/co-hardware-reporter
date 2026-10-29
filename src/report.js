@@ -1,3 +1,5 @@
+Chart.defaults.global.defaultFontColor = "black"; //change font colour for all charts
+
 loadData();
 
 async function loadData() {
@@ -81,8 +83,8 @@ function fillOutPCI(pciData) {
     
     const count = Object.keys(pciData).includes("count") ? pciData.count : "The number of PCI devices could not be read.";
     const vendorCountObj = Object.keys(pciData).includes("vendorCount") ? pciData.vendorCount : {
-        "names": ["The names could not be read"],
-        "counts": ["The counts could not be read"]
+        "names": [],
+        "counts": []
     };
 
     let devices = Object.keys(pciData).includes("devices") ? pciData.devices : ["The devices could not be read."];
@@ -130,49 +132,90 @@ function fillOutPCI(pciData) {
         deviceTable.appendChild(row);
     }
 
-    //make vendor table
-    vendorTable.innerHTML = "";
-    vendorTable.border = "1";
+    const barColours = [
+        "gray",
+        "green"
+    ];
 
-    //Add headers
-    const vendorHeaders = ["Vendor", "Count"];
-    const vendorHeaderRow = document.createElement("tr");
+    const chart = document.getElementById("pci-vendors");
+    if (vendorCountObj.names.length > 0 && vendorCountObj.counts.length > 0) {
+        chart.innerHTML = "";
 
-    vendorHeaders.forEach(text => {
-        const th = document.createElement("th");
-        th.textContent = text;
-        vendorHeaderRow.appendChild(th);
-    });
-    vendorTable.appendChild(vendorHeaderRow);
-
-    // Add device rows
-    if (Object.keys(vendorCountObj).includes("names") && Object.keys(vendorCountObj).includes("counts") && vendorCountObj.names.length == vendorCountObj.counts.length) {
-        for (let i=0; i<vendorCountObj.names.length; i++) {
-            const row = document.createElement("tr");
-
-            const nameCell = document.createElement("td");
-            const countCell = document.createElement("td");
-
-            nameCell.innerText = vendorCountObj.names[i];
-            countCell.innerText = vendorCountObj.counts[i];
-
-            row.appendChild(nameCell);
-            row.appendChild(countCell);
-            vendorTable.appendChild(row);
-        }
-    } else {
-        const row = document.createElement("tr");
-
-        const nameCell = document.createElement("td");
-        const countCell = document.createElement("td");
-
-        nameCell.innerText = "Couldn't read vendors";
-        countCell.innerText = "Couldn't read counts";
-
-        row.appendChild(nameCell);
-        row.appendChild(countCell);
-        vendorTable.appendChild(row);
+        new Chart(chart, {
+            type: "bar",
+            data: {
+                labels: vendorCountObj.names,
+                datasets: [{
+                backgroundColor: barColours,
+                data: vendorCountObj.counts
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: "Device Count by Vendor"
+                },
+                legend: {
+                    display: false
+                },
+                scales: { //make the vendor count start at 0
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    } else { //display error message, hide chart
+        document.getElementById("pci-vendors").style.display = "none";
+        document.getElementById("pci-vendor-error").style.display = "flex";
     }
+
+    // //make vendor table
+    // vendorTable.innerHTML = "";
+    // vendorTable.border = "1";
+
+    // //Add headers
+    // const vendorHeaders = ["Vendor", "Count"];
+    // const vendorHeaderRow = document.createElement("tr");
+
+    // vendorHeaders.forEach(text => {
+    //     const th = document.createElement("th");
+    //     th.textContent = text;
+    //     vendorHeaderRow.appendChild(th);
+    // });
+    // vendorTable.appendChild(vendorHeaderRow);
+
+    // // Add vendor rows
+    // if (Object.keys(vendorCountObj).includes("names") && Object.keys(vendorCountObj).includes("counts") && vendorCountObj.names.length == vendorCountObj.counts.length) {
+    //     for (let i=0; i<vendorCountObj.names.length; i++) {
+    //         const row = document.createElement("tr");
+
+    //         const nameCell = document.createElement("td");
+    //         const countCell = document.createElement("td");
+
+    //         nameCell.innerText = vendorCountObj.names[i];
+    //         countCell.innerText = vendorCountObj.counts[i];
+
+    //         row.appendChild(nameCell);
+    //         row.appendChild(countCell);
+    //         vendorTable.appendChild(row);
+    //     }
+    // } else {
+    //     const row = document.createElement("tr");
+
+    //     const nameCell = document.createElement("td");
+    //     const countCell = document.createElement("td");
+
+    //     nameCell.innerText = "Couldn't read vendors";
+    //     countCell.innerText = "Couldn't read counts";
+
+    //     row.appendChild(nameCell);
+    //     row.appendChild(countCell);
+    //     vendorTable.appendChild(row);
+    // }
 }
 
 function fillOutUSB(usbData) {
@@ -212,7 +255,7 @@ function fillOutMem(memData) {
     const percent = Object.keys(memData).includes("percent") ? memData.percent : "Memory couldn't be read";
     document.getElementById("memory-base").innerHTML = percent;
 
-    const barColors = [
+    const barColours = [
     "red",
     "green"
     ];
@@ -226,7 +269,7 @@ function fillOutMem(memData) {
             data: {
                 labels: ["Used", "Unused"],
                 datasets: [{
-                backgroundColor: barColors,
+                backgroundColor: barColours,
                 data: [used, total-used]
                 }]
             },
