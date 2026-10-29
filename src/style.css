@@ -170,11 +170,35 @@ th {
 
 /*USB*/
 #usb {
+    --count: #9b87ff;
     border-color: #6445ff;
+    display: flex;
+    flex-direction: column;
+}
+
+.count { /*the number next to a heading*/
+    color: var(--count);
+}
+
+#usb-list { /*fills the card; many devices scroll inside it, the header stays*/
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+#usb-devices th {
+    position: sticky;
+    top: 0;
+    background-color: #161d27;
+}
+
+#usb tr:nth-child(even) {
+    background-color: #2b2470;
 }
 
 /*pci*/
 #pci {
+    --count: #7fd18b;
     --accent: #39a045;
     border-color: var(--accent);
     overflow: auto;
@@ -217,16 +241,24 @@ th {
     min-width: 0;
 }
 
-#pci-devices {
+#pci-devices,
+#usb-devices {
     width: 100%;
     border-collapse: collapse;
 }
 
 #pci-devices th,
-#pci-devices td {
+#pci-devices td,
+#usb-devices th,
+#usb-devices td {
     text-align: left;
     border: 0;
     padding: 6px 10px;
+}
+
+#usb-devices th,
+#usb-devices td {
+    padding: 4px 6px;
 }
 
 .mono {
