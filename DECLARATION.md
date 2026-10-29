@@ -8,7 +8,7 @@ We declare that this material, which we now submit for assessment, is entirely o
 | --- | --- | --- |
 | Anastasia Currie | 26442353 | Anastasia C. |
 | Nguyen Le Gia Huy | 26229803 | Huy |
-| Lynn Christa Nalwoga | TODO | |
+| Lynn Christa Nalwoga | 26251558 |Lynn |
 | Reinis Caunans | TODO | |
 
 ## Declaration of Generative AI and AI-assisted technologies
@@ -19,5 +19,5 @@ Each member lists the tool they used and the reason. Prompts and responses are s
 | --- | --- | --- |
 | Anastasia Currie | None | N/A |
 | Nguyen Le Gia Huy | Gemini chat | Polish tickets and PRs from draft. Prompts (Send with drafts): "Polish this GitHub issue/PR draft. Fix grammar and wording, keep it short and plain, keep the template headings and the meaning. Do not add new content." |
-| Lynn Christa Nalwoga | TODO | TODO |
+| Lynn Christa Nalwoga | Gemini | Explaining the starter code. |
 | Reinis Caunans | TODO | TODO |
