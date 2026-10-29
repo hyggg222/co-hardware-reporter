@@ -102,36 +102,38 @@ function fillOutPCI(pciData) {
         busDevices = ["The devices could not be read."];
     }
 
-    //make device table
-    deviceTable.innerHTML = "";
-    deviceTable.border = "1";
+    //make device table: one list, the buttons pick which order it shows
+    const lists = {devices: devices, alphaDevices: alphaDevices, busDevices: busDevices};
+    const sortButtons = document.querySelectorAll("#pci-sort button");
 
-    allDevices = [devices, alphaDevices, busDevices];
+    const showDevices = key => {
+        deviceTable.innerHTML = "<tr><th>Bus</th><th>ID</th><th>Class</th><th>Name</th></tr>";
 
-    //Add headers
-    const headers = ["Devices", "Devices Alphabetically", "Devices by Bus"];
-    const headerRow = document.createElement("tr");
+        lists[key].forEach(device => {
+            const row = document.createElement("tr");
+            const parts = device.match(/^\s*(\S+)\s+(\S+)\s+([^:]+):\s*(.*)$/); //bus, id, class, name
 
-    headers.forEach(text => {
-        const th = document.createElement("th");
-        th.textContent = text;
-        headerRow.appendChild(th);
-    });
-    deviceTable.appendChild(headerRow);
+            if (parts) {
+                parts.slice(1).forEach((text, i) => {
+                    const cell = document.createElement("td");
+                    cell.textContent = text;
+                    if (i < 2) cell.className = "mono"; //bus & id
+                    row.appendChild(cell);
+                });
+            } else { //error message, spans the whole row
+                const cell = document.createElement("td");
+                cell.colSpan = 4;
+                cell.textContent = device;
+                row.appendChild(cell);
+            }
+            deviceTable.appendChild(row);
+        });
 
-    // Add device rows
-    //3 columns, a row for each device
-    for (let i=0; i<devices.length; i++) {
-        const row = document.createElement("tr");
+        sortButtons.forEach(button => button.classList.toggle("active", button.dataset.list == key));
+    };
 
-        allDevices.forEach(item => {
-            const cell = document.createElement("td");
-            cell.textContent = item[i];
-            row.appendChild(cell);
-        })
-
-        deviceTable.appendChild(row);
-    }
+    sortButtons.forEach(button => button.onclick = () => showDevices(button.dataset.list));
+    showDevices("busDevices");
 
     const barColours = [
         "gray",

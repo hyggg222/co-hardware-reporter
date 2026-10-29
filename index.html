@@ -44,9 +44,17 @@
         <div id="pci">
             <h3>PCI Info</h3>
             <div class="row">
-                <table id="pci-devices">
-                    <!--devices filled in automatically-->
-                </table>
+                <div id="pci-list">
+                    <div id="pci-sort">
+                        Sort by
+                        <button data-list="devices">Read order</button>
+                        <button data-list="alphaDevices">Name</button>
+                        <button data-list="busDevices">Bus</button>
+                    </div>
+                    <table id="pci-devices">
+                        <!--devices filled in automatically-->
+                    </table>
+                </div>
                 
                 <canvas id="pci-vendors" style="width:100%">
                     <!--vendors filled in automatically-->

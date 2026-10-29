@@ -138,7 +138,8 @@ table, td, th {
 
 /*pci*/
 #pci {
-    border-color: #a98bd9;
+    --accent: #a98bd9;
+    border-color: var(--accent);
     overflow: auto; /*make sure the border & bg colour cover all the info*/
 }
 #pci .row {
@@ -161,7 +162,37 @@ table, td, th {
 #pci tr:nth-child(even) {
     background-color: #1f7a3a;
 }
-#pci-devices {
+#pci-list {
     margin-left: 2%;
     width: 60%;
+}
+#pci-devices {
+    width: 100%;
+    border-collapse: collapse;
+}
+#pci-devices th, #pci-devices td {
+    text-align: left;
+    border: 0;
+    padding: 6px 10px;
+}
+.mono {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/*sort switch*/
+#pci-sort {
+    margin-bottom: 10px;
+    text-align: left;
+}
+#pci-sort button {
+    padding: 4px 10px;
+    border: 1px solid #2a3442;
+    background-color: #1f2a36;
+    color: #e6e9ef;
+    cursor: pointer;
+}
+#pci-sort button.active {
+    background-color: var(--accent);
+    color: #111;
 }
