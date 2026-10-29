@@ -3,9 +3,14 @@ Chart.defaults.global.defaultFontColor = "black"; //change font colour for all c
 loadData();
 
 async function loadData() {
-    const response = await fetch("../report.json");
-    const data = await response.json();
-    
+    let data = {};
+    try {
+        const response = await fetch("report.json");
+        data = await response.json();
+    } catch (error) { //no server, no report.json, or not JSON: still show the error messages
+        document.getElementById("load-error").textContent = "Could not load report.json. Run make export, then serve this folder (e.g. npx serve).";
+    }
+
     const cpuData = await Object.keys(data).includes("cpu") ? data.cpu : {};
     const pciData = await Object.keys(data).includes("pci") ? data.pci : {};
     const usbData = await Object.keys(data).includes("usb") ? data.usb : {};

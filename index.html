@@ -14,6 +14,11 @@
                 text-decoration: underline;
             }
 
+            #load-error {
+                color: red;
+                text-align: center;
+            }
+
             /*tables*/
             /*centering*/
             .column table { 
@@ -124,6 +129,10 @@
     </head>
 
     <body>
+        <p id="load-error">
+            <!--shown only when report.json can't be loaded-->
+        </p>
+
         <div class="row">
             <div id="cpu" class="column">
                 <h3>CPU Info</h3>
