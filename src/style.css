@@ -30,14 +30,13 @@ tr:nth-child(odd) {
 
 /*column layout*/
 .row {
-    height: 450px;
+    min-height: 450px;
     display: flex;
     overflow: hidden; /*make sure the bg colours don't go over the borders*/
 }
 .column {
     float: left;
     padding: 10px;
-    height: 95%;
     text-align: center;
     width: 33%;
 }
@@ -48,21 +47,18 @@ tr:nth-child(odd) {
 
 /* Borders for info blocks */
 #pci, #usb, #cpu, #memory {
-    border: 2px dashed;
-    border-radius: 1%;
+    border: 2px solid;
+    border-radius: 8px;
 }
 
 /*CPU*/
 #cpu {
-    background-color: rgb(245, 177, 201);
-}
-#cpu tr:nth-child(even) {
-    background-color: magenta;
+    border-color: #2456c9;
 }
 
 /*the load bars*/
 .bar {
-    background: #564ad9;
+    background: #2456c9;
     height: 14px;
 }
 #cpu-loads td {
@@ -71,7 +67,7 @@ tr:nth-child(odd) {
 
 /*memory*/
 #memory {
-    background-color: rgb(250, 180, 152);
+    border-color: #0b7f77;
 }
 #memory-base {
     text-align: center;
@@ -79,15 +75,12 @@ tr:nth-child(odd) {
 
 /*USB*/
 #usb {
-    background-color: palegoldenrod;
-}
-#usb tr:nth-child(even) {
-    background-color: goldenrod;
+    border-color: #b85c00;
 }
 
 /*pci*/
 #pci {
-    background-color: rgb(185, 245, 185);
+    border-color: #6b3fb5;
     overflow: auto; /*make sure the border & bg colour cover all the info*/
 }
 #pci .row {
@@ -98,10 +91,6 @@ tr:nth-child(odd) {
 #pci h3 { /*make sure the heading is above the rest*/
     display: block;
 }
-#pci tr:nth-child(even) {
-    background-color: green;
-}
-
 #pci-vendors, #pci-vendor-error {
     margin-left: 3%;
     width: 25%;
