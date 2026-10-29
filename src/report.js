@@ -86,6 +86,31 @@ function addBar(item, row) { //add a bar representing % to a table
 
 }
 
+//fill a table: a header row, then a row per line. A line that doesn't match the pattern (an error message) spans the whole row.
+function fillDeviceTable(table, headers, lines, pattern, monoColumns) {
+    table.innerHTML = "<tr>" + headers.map(text => "<th>" + text + "</th>").join("") + "</tr>";
+
+    lines.forEach(line => {
+        const row = document.createElement("tr");
+        const parts = line.match(pattern);
+
+        if (parts) {
+            parts.slice(1).forEach((text, i) => {
+                const cell = document.createElement("td");
+                cell.textContent = text;
+                if (i < monoColumns) cell.className = "mono"; //ids and numbers
+                row.appendChild(cell);
+            });
+        } else {
+            const cell = document.createElement("td");
+            cell.colSpan = headers.length;
+            cell.textContent = line;
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    });
+}
+
 function fillOutPCI(pciData) {
     const deviceTable = document.getElementById("pci-devices");
     const vendorTable = document.getElementById("pci-vendors");
@@ -107,34 +132,19 @@ function fillOutPCI(pciData) {
     }
 
     //make device table: one list, the buttons pick which order it shows
+    const pciLine = /^\s*(\S+)\s+(\S+)\s+([^:]+):\s*(.*)$/; //bus, id, class, name
     const lists = {devices: devices, alphaDevices: alphaDevices, busDevices: busDevices};
     const sortButtons = document.querySelectorAll("#pci-sort button");
 
     const showDevices = key => {
-        deviceTable.innerHTML = "<tr><th>Bus</th><th>ID</th><th>Class</th><th>Name</th></tr>";
-
-        lists[key].forEach(device => {
-            const row = document.createElement("tr");
-            const parts = device.match(/^\s*(\S+)\s+(\S+)\s+([^:]+):\s*(.*)$/); //bus, id, class, name
-
-            if (parts) {
-                parts.slice(1).forEach((text, i) => {
-                    const cell = document.createElement("td");
-                    cell.textContent = text;
-                    if (i < 2) cell.className = "mono"; //bus & id
-                    row.appendChild(cell);
-                });
-            } else { //error message, spans the whole row
-                const cell = document.createElement("td");
-                cell.colSpan = 4;
-                cell.textContent = device;
-                row.appendChild(cell);
-            }
-            deviceTable.appendChild(row);
-        });
+        fillDeviceTable(deviceTable, ["Bus", "ID", "Class", "Name"], lists[key], pciLine, 2);
 
         sortButtons.forEach(button => button.classList.toggle("active", button.dataset.list == key));
     };
+
+    //number of devices, next to the heading (blank when the devices couldn't be read)
+    const count = devices.filter(device => pciLine.test(device)).length;
+    document.getElementById("pci-count").textContent = count > 0 ? count : "";
 
     sortButtons.forEach(button => button.onclick = () => showDevices(button.dataset.list));
     showDevices("busDevices");
@@ -239,23 +249,17 @@ function fillOutUSB(usbData) {
     
     let devices = Object.keys(usbData).includes("devices") ? usbData.devices : ["The devices could not be read."];
 
-    //make device table
-    deviceTable.innerHTML = "<caption>USB Devices</caption>";
-    deviceTable.border = "1";
-
     if (devices.length <= 0) { //make sure error msg shows
         devices = ["The devices could not be read."];
     }
 
-    devices.forEach(device => {
-        const row = document.createElement("tr");
+    //make device table: "Bus 001 Device 002: ID 1d6b:0002  Linux Foundation 2.0 root hub"
+    const usbLine = /^Bus (\d+) Device (\d+): ID (\S+)\s+(.*)$/;
+    fillDeviceTable(deviceTable, ["Bus", "Dev", "ID", "Name"], devices, usbLine, 3);
 
-        const cell = document.createElement("td");
-        cell.innerText = device;
-
-        row.appendChild(cell);
-        deviceTable.appendChild(row);
-    })
+    //number of devices, next to the heading (blank when the devices couldn't be read)
+    const count = Object.keys(usbData).includes("devices") ? devices.filter(device => usbLine.test(device)).length : "";
+    document.getElementById("usb-count").textContent = count;
 }
 
 function fillOutMem(memData) {
