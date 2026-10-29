@@ -2,45 +2,69 @@
 <html>
     <head>
         <title>System Report</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+        <link rel="stylesheet" href="src/style.css">
     </head>
 
     <body>
-        <div id="cpu">
-            <p id="cpu-base">
-                <!--count & model filled in automatically-->
-            </p>
-            <table id="cpu-loads">
-                <!--loads & average filled in automatically-->
-            </table>
+        <h1>Linux Device Report</h1>
+        <p id="load-error">
+            <!--shown only when report.json can't be loaded-->
+        </p>
+
+        <div class="row">
+            <div id="cpu" class="column">
+                <h3>CPU Info</h3>
+                <p id="cpu-base">
+                    <!--count & model filled in automatically-->
+                </p>
+                <table id="cpu-loads">
+                    <!--loads & average filled in automatically-->
+                </table>
+            </div>
+
+            <div id="memory" class="column">
+                <h3>Memory Info</h3>
+                <canvas id="memChart" style="width:100%;max-width:600px"></canvas>
+                <p id="memory-base">
+                    <!--percentage filled in automatically-->
+                </p>
+            </div>
+
+            
+            <div id="usb" class="column">
+                <h3>USB Info</h3>
+                <table id="usb-devices">
+                    <!--devices filled in automatically-->
+                </table>
+            </div>
         </div>
-        <hr/>
 
         <div id="pci">
-            <p id="pci-base">
-                <!--count filled in automatically-->
-            </p>
-            <table id="pci-devices">
-                <!--devices filled in automatically-->
-            </table>
-            <table id="pci-vendors">
-                <!--vendors filled in automatically-->
-            </table>
-        </div>
-        <hr/>
+            <h3>PCI Info</h3>
+            <div class="row">
+                <div id="pci-list">
+                    <div id="pci-sort">
+                        Sort by
+                        <button data-list="devices">Read order</button>
+                        <button data-list="alphaDevices">Name</button>
+                        <button data-list="busDevices">Bus</button>
+                    </div>
+                    <table id="pci-devices">
+                        <!--devices filled in automatically-->
+                    </table>
+                </div>
+                
+                <div id="pci-chart"> <!--the chart sizes itself to this box-->
+                    <canvas id="pci-vendors" style="width:100%">
+                        <!--vendors filled in automatically-->
+                    </canvas>
+                </div>
 
-        <div id="usb">
-            <p id="usb-base">
-                <!--count filled in automatically-->
-            </p>
-            <table id="usb-devices">
-                <!--devices filled in automatically-->
-            </table>
+                <p id="pci-vendor-error">Vendors couldn't be read</p>
+            </div>
         </div>
-        <hr/>
-
-        <p id="memory">
-            <!--total, used & percentage filled in automatically-->
-        </p>
     </body>
 
     

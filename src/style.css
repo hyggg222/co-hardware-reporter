@@ -1,0 +1,254 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #0f141b;
+    color: #e6e9ef;
+    padding: 16px;
+}
+
+h1 {
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+h3 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#load-error {
+    color: red;
+    text-align: center;
+}
+
+/*tables*/
+/*centering*/
+.column table {
+    margin: auto;
+}
+
+td {
+    text-align: center;
+}
+
+/*alternating colours*/
+tr:nth-child(even) {
+    background-color: #1c2530;
+}
+
+tr:nth-child(odd) {
+    background-color: #161d27;
+}
+
+table,
+td,
+th {
+    border-color: #2a3442;
+}
+
+/*column layout*/
+.row {
+    min-height: 450px;
+    gap: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    overflow: hidden;
+    /*make sure the bg colours don't go over the borders*/
+}
+
+.column {
+    float: left;
+    padding: 10px;
+    text-align: center;
+    width: 33%;
+}
+
+.row:after {
+    content: "";
+    clear: both;
+}
+
+/* Borders for info blocks */
+#pci,
+#usb,
+#cpu,
+#memory {
+    border: 2px solid;
+    border-radius: 8px;
+    background-color: #161d27;
+}
+
+/*CPU*/
+#cpu {
+    border-color: #e92020;
+}
+
+/*the load bars*/
+.bar {
+    background: #ea571d;
+    height: 6px;
+}
+
+/*the cores as tiles, the average as a ring on the left*/
+#cpu-loads {
+    display: grid;
+    grid-template-columns: 110px repeat(3, 1fr);
+    gap: 8px;
+    border: 0;
+}
+
+#cpu-loads caption {
+    display: block;
+    grid-column: 1 / -1;
+    text-align: left;
+}
+
+#cpu-loads tr {
+    display: block;
+    padding: 6px 4px;
+    font-size: 13px;
+    border: 1px solid #2a3442;
+    border-radius: 6px;
+    background-color: #1f2a36;
+}
+
+#cpu-loads td {
+    display: block;
+    border: 0;
+    padding: 0;
+}
+
+#cpu-loads td:nth-child(2) {
+    /*bar track*/
+    margin-top: 4px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #030303;
+}
+
+#cpu-loads tr:last-child {
+    /*average*/
+    grid-column: 1;
+    grid-row: 2 / span 6;
+    align-self: start;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    position: relative;
+    border: 0;
+    border-radius: 50%;
+    background: conic-gradient(#ea571d calc(var(--percent, 0) * 1%), #030303 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+}
+
+#cpu-loads tr:last-child::before {
+    /*the hole in the middle of the ring*/
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background-color: #1f2a36;
+}
+
+#cpu-loads tr:last-child td {
+    position: relative;
+}
+
+#cpu-loads tr:last-child td:nth-child(2) {
+    display: none;
+}
+
+/*memory*/
+#memory {
+    border-color: #dffc08;
+}
+
+#memory-base {
+    text-align: center;
+}
+
+/*USB*/
+#usb {
+    border-color: #6445ff;
+}
+
+/*pci*/
+#pci {
+    --accent: #39a045;
+    border-color: var(--accent);
+    overflow: auto;
+    /*make sure the border & bg colour cover all the info*/
+}
+
+#pci .row {
+    float: left;
+    padding: 10px;
+    width: 98%;
+    min-height: 0;
+    /*100 = too big, no width set = ugly when there's an error*/
+}
+
+#pci h3 {
+    /*make sure the heading is above the rest*/
+    display: block;
+}
+
+#pci-chart,
+#pci-vendor-error {
+    margin-left: 3%;
+    flex: 1;
+    min-width: 0;
+    align-self: flex-start;
+}
+
+#pci-vendor-error {
+    display: none;
+    text-align: center;
+}
+
+#pci tr:nth-child(even) {
+    background-color: #1f7a3a;
+}
+
+#pci-list {
+    margin-left: 2%;
+    flex: 1;
+    min-width: 0;
+}
+
+#pci-devices {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#pci-devices th,
+#pci-devices td {
+    text-align: left;
+    border: 0;
+    padding: 6px 10px;
+}
+
+.mono {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/*sort switch*/
+#pci-sort {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+#pci-sort button {
+    padding: 4px 10px;
+    border: 1px solid #2a3442;
+    background-color: #1f2a36;
+    color: #e6e9ef;
+    cursor: pointer;
+}
+
+#pci-sort button.active {
+    background-color: var(--accent);
+    color: #111;
+}

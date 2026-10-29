@@ -61,7 +61,7 @@ public class usbReport {
             
             System.out.printf("%s", ending);
         } catch (Exception e) {
-            System.out.printf("%s", ending);
+            // System.out.printf("%s", ending);
         }
     }
 }
