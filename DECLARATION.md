@@ -7,7 +7,7 @@ We declare that this material, which we now submit for assessment, is entirely o
 | Name | ID | Signed |
 | --- | --- | --- |
 | Anastasia Currie | TODO | |
-| Charlie Nguyen | TODO | |
+| Nguyen Le Gia Huy | 26229803 | Huy |
 | Lynn Christa Nalwoga | TODO | |
 | Reinis Caunans | TODO | |
 
@@ -18,6 +18,6 @@ Each member lists the tool they used and the reason. Prompts and responses are s
 | Name | Tool | Reason |
 | --- | --- | --- |
 | Anastasia Currie | TODO | TODO |
-| Charlie Nguyen | TODO | TODO |
+| Nguyen Le Gia Huy | Gemini chat | Polish tickets and PRs from draft. Prompts (Send with drafts): "Polish this GitHub issue/PR draft. Fix grammar and wording, keep it short and plain, keep the template headings and the meaning. Do not add new content." |
 | Lynn Christa Nalwoga | TODO | TODO |
 | Reinis Caunans | TODO | TODO |
